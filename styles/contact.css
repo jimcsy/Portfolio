@@ -1,0 +1,152 @@
+/* --- Contact Section --- */
+.contact-section {
+    padding: 100px 15%;
+    background-color: #1a1a1a;
+    min-height: 80vh; /* Ensures it takes up good screen space */
+    display: flex;
+    align-items: center;
+}
+
+.contact-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 50px;
+}
+
+/* --- Left Side: Info --- */
+.contact-info {
+    flex: 1; /* Takes up left half */
+    padding-top: 20px;
+}
+
+.contact-heading {
+    color: var(--primary-blue); /* The blue "Get in Touch" */
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.contact-subheading {
+    color: #F1EEDA;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.contact-desc {
+    color: #b3b3b3;
+    line-height: 1.6;
+    margin-bottom: 50px;
+    max-width: 400px;
+}
+
+/* Contact Details (Icons + Text) */
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    color: #F1EEDA;
+    font-size: 16px;
+}
+
+.detail-item i {
+    font-size: 20px;
+    color: #F1EEDA; /* White icons as shown in image */
+}
+
+.social-text-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-text-links a {
+    color: #F1EEDA;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.social-text-links a:hover {
+    color: var(--primary-blue);
+}
+
+/* --- Right Side: Form Card --- */
+.contact-form-card {
+    flex: 1; /* Takes up right half */
+    background-color: #252525; /* Dark card background */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: #F1EEDA;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* Input Fields Styling */
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: #e6e6e6; /* Light grey inputs from screenshot */
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: 2px solid var(--primary-blue);
+}
+
+/* Send Button */
+.btn-send {
+    display: block;
+    width: 100%;
+    max-width: 150px;
+    margin: 0 auto; /* Center the button */
+    background-color: #004080; /* Darker blue button color */
+    color: #F1EEDA;
+    padding: 12px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.btn-send:hover {
+    background-color: var(--primary-blue);
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 900px) {
+    .contact-container {
+        flex-direction: column; /* Stack vertically on mobile */
+        gap: 40px;
+    }
+
+    .contact-info, 
+    .contact-form-card {
+        width: 100%; /* Full width */
+        padding: 20px;
+    }
+    
+    .contact-heading {
+        margin-bottom: 15px;
+    }
+}
