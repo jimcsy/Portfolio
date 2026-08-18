@@ -1,0 +1,89 @@
+/* Navbar.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0rem 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- Logo --- */
+.navbar-logo img {
+  height: 50px;
+  display: block;
+  border-radius: 4px;
+}
+
+/* --- Center Pill Container --- */
+.navbar-center {
+  display: flex;
+  align-items: center;
+  border: 1px solid #71717a; /* Dark border to match the image */
+  border-radius: 9999px; /* Creates the pill shape */
+  padding: 0.35rem 0.75rem 0.35rem 0.75rem;
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.5rem; /* Spacing between words */
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #000000;
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+.nav-links li a:hover {
+  color: #007bff; /* Slight hover effect */
+}
+
+/* Vertical Line Divider */
+.divider {
+  width: 1px;
+  height: 24px;
+  background-color: #71717a;
+  margin: 0 1rem;
+}
+
+/* Moon Icon Button */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  color: #000000;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background-color: #f4f4f5;
+}
+
+/* --- Right Action Button --- */
+.contact-btn {
+  background-color: #007bff; /* Bright blue */
+  color: #ffffff;
+  border: none;
+  border-radius: 6px; /* Slightly rounded corners */
+  padding: 0.6rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.contact-btn:hover {
+  background-color: #0062cc; /* Darker blue on hover */
+}
