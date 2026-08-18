@@ -58,9 +58,19 @@ export default function Hero() {
 
         {/* Social Links */}
         <div className="social-links">
-          <a href="#github">Github ↗</a>
-          <a href="#linkedin">LinkedIn ↗</a>
-          <a href="#facebook">Facebook ↗</a>
+          <a href="#github">Github<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px', verticalAlign: 'middle' }}>
+              <line x1="3" y1="9" x2="9" y2="3"></line>
+              <polyline points="5 3 9 3 9 7"></polyline>
+            </svg>
+          </a>
+          <a href="#linkedin">LinkedIn<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px', verticalAlign: 'middle' }}>
+              <line x1="3" y1="9" x2="9" y2="3"></line>
+              <polyline points="5 3 9 3 9 7"></polyline>
+            </svg></a>
+          <a href="#facebook">Facebook<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px', verticalAlign: 'middle' }}>
+              <line x1="3" y1="9" x2="9" y2="3"></line>
+              <polyline points="5 3 9 3 9 7"></polyline>
+            </svg></a>
         </div>
         
       </div>
