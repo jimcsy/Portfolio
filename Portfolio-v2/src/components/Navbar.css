@@ -1,14 +1,24 @@
-/* Navbar.css */
-
+/* --- Base Navbar Layout --- */
 .navbar {
+  position: sticky !important;
+  top: 0;
+  z-index: 100 !important;
+  padding: 1rem 2rem; 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0rem 1rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  transition: padding 0.3s ease, background-color 0.3s ease;
 }
 
-/* --- Logo --- */
+.navbar-logo, .navbar-right {
+  flex: 1;
+  display: flex;
+}
+.navbar-right {
+  justify-content: flex-end;
+}
+
 .navbar-logo img {
   height: 50px;
   display: block;
@@ -19,37 +29,141 @@
 .navbar-center {
   display: flex;
   align-items: center;
-  border: 1px solid #71717a; /* Dark border to match the image */
-  border-radius: 9999px; /* Creates the pill shape */
-  padding: 0.35rem 0.75rem 0.35rem 0.75rem;
+  border: 1px solid var(--line, #71717a); 
+  border-radius: 9999px; 
+  padding: 0.35rem 0.75rem;
+  background-color: var(--panel-bg, #ffffff); 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+  transition: all 0.4s ease;
 }
 
-/* Navigation Links */
+/* --- Navigation Links --- */
 .nav-links {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 1.5rem; /* Spacing between words */
+  align-items: center;
+}
+
+.nav-links li:not(:first-child) {
+  margin-left: 1.5rem;
 }
 
 .nav-links li a {
   text-decoration: none;
-  color: #000000;
+  color: var(--text, #000000);
   font-size: 0.95rem;
-  font-weight: 400;
+  font-weight: 500;
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
 .nav-links li a:hover {
-  color: #007bff; /* Slight hover effect */
+  color: var(--blue, #007bff); 
 }
+
+
+/* ==================================================== */
+/* 🌀 THE BLACK HOLE MORPH ANIMATIONS 🌀                */
+/* ==================================================== */
+
+/* --- 1. LEFT SIDE: Main Logo Gets Sucked --- */
+.morph-logo {
+  opacity: 1;
+  transform: translateX(0) scale(1) rotate(0deg);
+  transition: all 0.6s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
+}
+
+/* Scrolled: Main logo flies to the right and shrinks! */
+.navbar.scrolled .morph-logo {
+  opacity: 0;
+  transform: translateX(150px) scale(0.1) rotate(15deg); 
+  pointer-events: none; 
+}
+
+/* The Hidden Logo inside the left of the Pill */
+.pill-logo-wrap {
+  display: flex;
+  align-items: center;
+  max-width: 0; 
+  opacity: 0;
+  transform: translateX(-30px) scale(0.5); /* Starts slightly left */
+  filter: blur(4px); 
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
+}
+
+/* Scrolled: Pill Logo Expands & Slides In */
+.navbar.scrolled .pill-logo-wrap {
+  max-width: 120px; /* Safely opens enough space for logo + divider */
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  filter: blur(0);
+}
+
+.pill-logo-img {
+  height: 24px; /* Scaled down perfectly to match the 24px divider */
+  border-radius: 2px;
+  display: block;
+}
+
+
+/* --- 2. RIGHT SIDE: The Hidden Contact Text inside the Pill --- */
+.pill-contact {
+  max-width: 0; 
+  opacity: 0;
+  margin-left: 0 !important; 
+  transform: translateX(30px) scale(0.5); /* Starts slightly right */
+  filter: blur(4px); 
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
+}
+
+/* Scrolled: Text Expands & Slides In */
+.navbar.scrolled .pill-contact {
+  max-width: 80px; 
+  opacity: 1;
+  margin-left: 1.5rem !important; 
+  transform: translateX(0) scale(1);
+  filter: blur(0);
+}
+
+/* --- 3. RIGHT SIDE: The Main Blue Button Gets Sucked --- */
+.contact-btn {
+  background-color: var(--blue, #007bff); 
+  color: #ffffff;
+  border: none;
+  border-radius: 6px; 
+  padding: 0.6rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.contact-btn:hover { background-color: #0062cc; }
+
+.morph-btn {
+  opacity: 1;
+  transform: translateX(0) scale(1) rotate(0deg);
+  transition: all 0.6s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
+}
+
+/* Scrolled: Button flies to the left and shrinks! */
+.navbar.scrolled .morph-btn {
+  opacity: 0;
+  transform: translateX(-150px) scale(0.1) rotate(-15deg); 
+  pointer-events: none; 
+}
+/* ==================================================== */
 
 /* Vertical Line Divider */
 .divider {
   width: 1px;
   height: 24px;
-  background-color: #71717a;
+  background-color: var(--line, #71717a);
   margin: 0 1rem;
 }
 
@@ -62,28 +176,11 @@
   align-items: center;
   justify-content: center;
   padding: 0.25rem;
-  color: #000000;
+  color: var(--text, #000000);
   border-radius: 50%;
   transition: background-color 0.2s ease;
 }
 
 .theme-toggle:hover {
-  background-color: #f4f4f5;
-}
-
-/* --- Right Action Button --- */
-.contact-btn {
-  background-color: #007bff; /* Bright blue */
-  color: #ffffff;
-  border: none;
-  border-radius: 6px; /* Slightly rounded corners */
-  padding: 0.6rem 1.5rem;
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.contact-btn:hover {
-  background-color: #0062cc; /* Darker blue on hover */
+  background-color: var(--muted, #f4f4f5);
 }

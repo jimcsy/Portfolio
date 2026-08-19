@@ -1,0 +1,13 @@
+.contact-footer { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; padding: 7rem max(2rem, calc((100vw - 1180px) / 2)); background: var(--text); color: var(--page-bg); scroll-margin-top: 2rem; }
+.contact-footer h2 { margin: 0.5rem 0 0; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 400; line-height: 0.95; }
+.contact-footer .section-kicker { margin: 0.8rem 0 0; color: var(--blue-soft); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.contact-details { align-self: end; max-width: 430px; }
+.contact-details > p:first-child { color: inherit; opacity: 0.75; font-size: 1.05rem; line-height: 1.8; }
+.email-link { display: inline-block; margin-top: 1rem; color: var(--blue-soft); font-size: clamp(1.2rem, 2vw, 1.7rem); font-weight: 600; }
+.email-link span { display: inline-block; margin-left: 0.3rem; }
+.footer-note { margin: 4rem 0 0; color: inherit; opacity: 0.55; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+
+@media (max-width: 760px) {
+  .contact-footer { grid-template-columns: 1fr; gap: 2.5rem; padding: 5rem 2rem; }
+  .footer-note { margin-top: 2.5rem; }
+}

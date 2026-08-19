@@ -22,6 +22,10 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  opacity: 1;
+  transform: translateX(0) scale(1) rotate(0deg);
+  transition: all 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
+  transform-origin: right center; 
 }
 
 /* Status Bar */
@@ -66,7 +70,7 @@
   background: linear-gradient(135deg, #38bdf8 0%, #007bff 50%, #0369a1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  display: inline-block; /* Ensures the gradient aligns properly with inline text */
+  display: inline-block;
 }
 
 .name {
@@ -125,53 +129,82 @@
   color: var(--primary-blue);
 }
 
+
+/* --- Right Column: Image & 3D Card --- */
 .hero-image-wrapper {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  perspective: 1000px; /* NEW: Adds 3D depth space for the hover tilt */
-
-  /* NEW: Stops Safari from trying to 'drag' or 'highlight' the 3D card */
+  perspective: 1000px;
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;
-  touch-action: none; /* Forces Safari to prioritize hover tracking */
+  touch-action: none;
+  transition: transform 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5);
+  transform-style: preserve-3d;
 }
 
-/* The "Tupperware" Glassmorphism Card */
-/* Update the base Tupperware Card */
 .tupperware-card {
   position: relative;
   width: 100%;
   max-width: 440px; 
-  aspect-ratio: 4 / 6; 
-  
-  background-color: var(--bg-light-blue, #e0f2fe);
-  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(56, 189, 248, 0.2) 100%);
+  aspect-ratio: 4 / 5.5; 
+  background-color: rgba(0, 98, 204, 0.35); 
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(0, 98, 204, 0.6) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 2px solid rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2); 
+  border-top: 1px solid rgba(255, 255, 255, 0.45); 
+  border-left: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 3rem;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15), 0 20px 40px rgba(0, 98, 204, 0.25);
   overflow: hidden; 
   display: flex;
   align-items: flex-end; 
   justify-content: center;
-
-  transition: transform 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67), box-shadow 0.3s ease; 
+  transition: transform 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67), 
+              box-shadow 0.3s ease,
+              max-width 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5),
+              aspect-ratio 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
   transform-style: preserve-3d;
   will-change: transform;
 }
 
-/* Enlarged Profile Image */
+.tupperware-card:hover {
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2), 20px 30px 50px rgba(0, 98, 204, 0.5); 
+}
+
+/* Glossy reflection */
+.tupperware-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+  transform: skewX(-25deg);
+  transition: all 0.7s ease;
+  z-index: 20; 
+  pointer-events: none;
+}
+
+.tupperware-card:hover::before {
+  left: 150%; 
+}
+
 /* Enlarged Profile Image */
 .profile-pic {
+  position: relative;
   width: 115%; 
   height: auto;
   object-fit: cover;
   z-index: 10; 
   display: block;
-  pointer-events: none; /* NEW: Forces the mouse to ignore the image and track the card! */
+  pointer-events: none; 
+  transform: translateZ(50px);
+  transition: opacity 0.4s ease, transform 0.6s ease; 
 }
 
 /* --- Falling Toys Background --- */
@@ -183,36 +216,30 @@
   height: 100%;
   z-index: 1; 
   pointer-events: none;
+  transform: translateZ(-20px);
+  transition: opacity 0.4s ease, transform 0.6s ease; 
 }
 
-/* The White Glassmorphism Block */
 .tech-toy {
   position: absolute;
-  /* Reduced slightly from 95px to 85px to ensure they fit side-by-side cleanly */
   width: 85px;  
   height: 85px;
-  
   background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 2px solid rgba(255, 255, 255, 0.9);
   border-radius: 1.2rem; 
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
-  
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 12px;
-
   animation: clawMachineDrop 3.5s both; 
-
-  /* Tumble physics kept small enough so they slide without crashing together */
   translate: calc(var(--move-x, 0) * var(--t-dist, 12px)) calc(var(--move-y, 0) * var(--t-dist, 12px));
   rotate: calc(var(--move-x, 0) * var(--t-rot, 15deg));
   transition: translate 0.4s ease-out, rotate 0.4s ease-out;
 }
 
-/* Make sure the image scales perfectly inside the glass box */
 .tech-toy img {
   width: 100%;
   height: 100%;
@@ -220,82 +247,68 @@
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
-/* Messy pile resting positions with unique tumbling physics */
-/* Toy 1: Far Left, Bottom */
+/* Toy Cluster Layout */
 .toy-1 { bottom: 4%; left: 3%; --final-rot: -10deg; --t-dist: 12px; --t-rot: 10deg; animation-delay: 0.2s; }
-/* Toy 2: Inner Left, Bottom (Placed exactly 16px to the right of Toy 1) */
 .toy-2 { bottom: 3%; left: 26%; --final-rot: 15deg; --t-dist: 15px; --t-rot: -12deg; animation-delay: 1.2s; }
-/* Toy 3: Far Left, Upper (Placed exactly 30px above Toy 1) */
 .toy-3 { bottom: 26%; left: 4%; --final-rot: 20deg; --t-dist: 18px; --t-rot: 15deg; animation-delay: 2.5s; }
-
-/* Right Side Cluster */
-/* Toy 4: Far Right, Bottom */
 .toy-4 { bottom: 4%; right: 3%; --final-rot: 12deg; --t-dist: 14px; --t-rot: -10deg; animation-delay: 0.6s; }
-/* Toy 5: Inner Right, Bottom (Placed exactly 16px to the left of Toy 4) */
 .toy-5 { bottom: 3%; right: 26%; --final-rot: -15deg; --t-dist: 12px; --t-rot: 12deg; animation-delay: 1.8s; }
-/* Toy 6: Far Right, Upper (Placed exactly 30px above Toy 4) */
 .toy-6 { bottom: 26%; right: 4%; --final-rot: -20deg; --t-dist: 16px; --t-rot: -15deg; animation-delay: 3.2s; }
-/* --- NEW: The Hover Glide & Tilt --- */
-.tupperware-card:hover {
-  /* REMOVED the static transform line here. React handles the movement now! */
-  box-shadow: 20px 30px 50px rgba(56, 189, 248, 0.25); 
+
+
+/* ==================================================== */
+/* 🌀 HERO SECTION: FLIP & MORPH SCROLL PHYSICS 🌀      */
+/* ==================================================== */
+
+.scrolled-hero .hero-content {
+  opacity: 0;
+  transform: translateX(300px) scale(0.1) rotate(15deg); 
+  filter: blur(10px);
+  pointer-events: none; 
 }
 
-/* The glossy reflection that waits off-screen */
-.tupperware-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
-  transform: skewX(-25deg);
-  transition: all 0.7s ease;
-  
-  /* CHANGED: Brought from 5 up to 20 to sit on top of your face! */
-  z-index: 20; 
-  pointer-events: none;
+.scrolled-hero .hero-image-wrapper {
+  transform: translateX(-350px) rotateY(180deg) scale(0.95); 
 }
 
-/* Glides the reflection to the other side on hover */
-.tupperware-card:hover::before {
-  left: 150%; 
+.scrolled-hero .tupperware-card {
+  max-width: 605px; 
+  aspect-ratio: 5.5 / 4; 
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15); 
 }
 
-/* The Smooth Physics Bounce Animation */
+.scrolled-hero .profile-pic {
+  opacity: 0;
+  transform: translateZ(50px) scale(0.2); 
+}
+
+.scrolled-hero .falling-toys-container {
+  opacity: 0;
+  transform: translateZ(-20px) scale(0.2); 
+}
+
+
+/* --- Animations --- */
 @keyframes clawMachineDrop {
-  0% {
-    transform: translateY(-800px) rotate(-80deg); /* Start higher up */
-    animation-timing-function: ease-in; 
-  }
-  40% {
-    transform: translateY(0px) rotate(var(--final-rot));
-    animation-timing-function: ease-out; 
-  }
-  60% {
-    transform: translateY(-60px) rotate(calc(var(--final-rot) + 15deg)); /* Bigger bounce for heavier objects */
-    animation-timing-function: ease-in; 
-  }
-  75% {
-    transform: translateY(0px) rotate(var(--final-rot));
-    animation-timing-function: ease-out; 
-  }
-  85% {
-    transform: translateY(-20px) rotate(calc(var(--final-rot) - 5deg));
-    animation-timing-function: ease-in; 
-  }
-  95% {
-    transform: translateY(0px) rotate(var(--final-rot));
-  }
-  100% {
-    transform: translateY(0px) rotate(var(--final-rot));
-  }
+  0% { transform: translateY(-800px) rotate(-80deg); animation-timing-function: ease-in; }
+  40% { transform: translateY(0px) rotate(var(--final-rot)); animation-timing-function: ease-out; }
+  60% { transform: translateY(-60px) rotate(calc(var(--final-rot) + 15deg)); animation-timing-function: ease-in; }
+  75% { transform: translateY(0px) rotate(var(--final-rot)); animation-timing-function: ease-out; }
+  85% { transform: translateY(-20px) rotate(calc(var(--final-rot) - 5deg)); animation-timing-function: ease-in; }
+  95%, 100% { transform: translateY(0px) rotate(var(--final-rot)); }
 }
 
 
+/* --- Responsive Adjustments --- */
+@media (max-width: 900px) {
+  .scrolled-hero .hero-content {
+    transform: translateY(150px) scale(0.1) rotate(15deg);
+  }
+  .scrolled-hero .hero-image-wrapper {
+    transform: translateY(-50px) rotateX(180deg) scale(0.85); 
+  }
+}
 
-/* Responsive adjustments for smaller screens (PHONES) */
 @media (max-width: 768px) {
   .hero-container {
     flex-direction: column;
@@ -303,31 +316,18 @@
     text-align: center;
   }
 
-  /* Make sure the card stays flat and professional on phones */
   .tupperware-card {
     transform: none !important; 
     max-width: 320px; 
     margin: 0 auto; 
   }
   
-  .hero-status {
-    justify-content: center;
-  }
-  
-  .resume-btn {
-    margin: 1rem auto;
-  }
-  
-  .social-links {
-    justify-content: center;
-  }
-  
-  .name {
-    font-size: 4.5rem;
-  }
+  .hero-status { justify-content: center; }
+  .resume-btn { margin: 1rem auto; }
+  .social-links { justify-content: center; }
+  .name { font-size: 4.5rem; }
 }
 
-/* Apply the strict Safari hover fix ONLY to Desktop screens! */
 @media (min-width: 768px) {
   .hero-image-wrapper {
     touch-action: none; 

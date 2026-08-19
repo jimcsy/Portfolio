@@ -1,0 +1,17 @@
+.experience-section { display: grid; grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr); gap: 5rem; max-width: 1180px; margin: 0 auto; padding: 8rem 2rem; scroll-margin-top: 2rem; }
+.experience-section .section-heading h2 { margin: 0.5rem 0 0; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 400; line-height: 0.95; }
+.experience-section .section-number,
+.experience-section .section-kicker { color: var(--blue); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.experience-section .section-number { display: block; }
+.experience-section .section-kicker { margin: 0.8rem 0 0; }
+.experience-list { padding-top: 1rem; }
+.experience-item { display: grid; grid-template-columns: 135px 1fr; gap: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--line); }
+.experience-item:last-child { border-bottom: 1px solid var(--line); }
+.experience-period { color: var(--blue); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.experience-item h3 { margin: 0; font-size: 1.5rem; font-weight: 600; }
+.experience-item p { margin: 0.65rem 0 0; color: var(--muted); font-size: 1.05rem; line-height: 1.8; }
+
+@media (max-width: 760px) {
+  .experience-section { grid-template-columns: 1fr; gap: 2.5rem; padding: 5rem 2rem; }
+  .experience-item { grid-template-columns: 1fr; gap: 0.55rem; }
+}

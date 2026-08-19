@@ -1,33 +1,70 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import logo from '../assets/logo-black.png';
 
-export default function Navbar() {
+export default function Navbar({ toggleDarkMode }) {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // NEW: Forces the window to scroll to absolute 0, ensuring the animation resets
+  const scrollToTop = (e) => {
+    e.preventDefault(); // Stops the standard, clunky HTML jump
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
-    <nav className="navbar">
-      {/* Left: Logo Placeholder */}
+    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+      
+      {/* Left: Main Logo (Now clickable to go top!) */}
       <div className="navbar-logo">
-        <img 
-          src={logo} 
-          alt="Brand Logo" 
-        />
+        <a href="#home" onClick={scrollToTop}>
+          <img 
+            src={logo} 
+            alt="Brand Logo" 
+            className="morph-logo" 
+          />
+        </a>
       </div>
 
       {/* Center: Pill Navigation */}
       <div className="navbar-center">
+        
+        {/* The hidden logo (Now clickable to go top!) */}
+        <div className="pill-logo-wrap">
+          <a href="#home" onClick={scrollToTop}>
+            <img src={logo} alt="Brand Logo" className="pill-logo-img" />
+          </a>
+          <div className="divider"></div>
+        </div>
+
         <ul className="nav-links">
-          <li><a href="#home">Home</a></li>
+          {/* CHANGED: Replaced the standard href jump with our custom scroll function */}
+          <li><a href="#home" onClick={scrollToTop}>Home</a></li>
+          
           <li><a href="#about">About</a></li>
           <li><a href="#skills">Skills</a></li>
           <li><a href="#experience">Experience</a></li>
           <li><a href="#projects">Projects</a></li>
+          
+          <li className="pill-contact">
+            <a href="#contact">Contact</a>
+          </li>
         </ul>
         
-        {/* Vertical Divider line */}
         <div className="divider"></div>
         
-        {/* Dark Mode Toggle */}
-        <button className="theme-toggle" aria-label="Toggle Dark Mode">
+        <button className="theme-toggle" aria-label="Toggle Dark Mode" onClick={toggleDarkMode}>
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
             width="18" 
@@ -43,7 +80,7 @@ export default function Navbar() {
 
       {/* Right: Contact Button */}
       <div className="navbar-right">
-        <button className="contact-btn">Contact</button>
+        <a className="contact-btn morph-btn" href="#contact">Contact</a>
       </div>
     </nav>
   );
