@@ -7,16 +7,19 @@ export default function Navbar({ toggleDarkMode }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      // CHANGED: Increased from 50 to 400. 
+      // This ensures the Navbar waits until the Hero card finishes flipping (at 350px)
+      // before it sucks in the logo and contact button!
+      setIsScrolled(window.scrollY > 400);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // NEW: Forces the window to scroll to absolute 0, ensuring the animation resets
+  // Forces the window to scroll to absolute 0, ensuring the animation resets
   const scrollToTop = (e) => {
-    e.preventDefault(); // Stops the standard, clunky HTML jump
+    e.preventDefault(); 
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -26,7 +29,7 @@ export default function Navbar({ toggleDarkMode }) {
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       
-      {/* Left: Main Logo (Now clickable to go top!) */}
+      {/* Left: Main Logo */}
       <div className="navbar-logo">
         <a href="#home" onClick={scrollToTop}>
           <img 
@@ -40,7 +43,7 @@ export default function Navbar({ toggleDarkMode }) {
       {/* Center: Pill Navigation */}
       <div className="navbar-center">
         
-        {/* The hidden logo (Now clickable to go top!) */}
+        {/* The hidden logo */}
         <div className="pill-logo-wrap">
           <a href="#home" onClick={scrollToTop}>
             <img src={logo} alt="Brand Logo" className="pill-logo-img" />
@@ -49,9 +52,7 @@ export default function Navbar({ toggleDarkMode }) {
         </div>
 
         <ul className="nav-links">
-          {/* CHANGED: Replaced the standard href jump with our custom scroll function */}
           <li><a href="#home" onClick={scrollToTop}>Home</a></li>
-          
           <li><a href="#about">About</a></li>
           <li><a href="#skills">Skills</a></li>
           <li><a href="#experience">Experience</a></li>

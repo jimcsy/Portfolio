@@ -268,12 +268,19 @@
 }
 
 .scrolled-hero .hero-image-wrapper {
-  transform: translateX(-350px) rotateY(180deg) scale(0.95); 
+  flex: 0 0 min(605px, calc(100vw - 4rem));
+  width: min(605px, calc(100vw - 4rem));
+  
+  /* CHANGED: Reduced -350px to -150px to keep it perfectly in the center! */
+  /* Also changed scale(0.95) to scale(1) so it doesn't shrink */
+  transform: translateX(-280px) rotateY(180deg) scale(1); 
 }
 
 .scrolled-hero .tupperware-card {
-  max-width: 605px; 
-  aspect-ratio: 5.5 / 4; 
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  aspect-ratio: 5 / 3.2;
   box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15); 
 }
 
@@ -287,7 +294,173 @@
   transform: translateZ(-20px) scale(0.2); 
 }
 
+/* ==================================================== */
+/* 💼 THE FLIPPED BUSINESS CARD LAYOUT 💼               */
+/* ==================================================== */
 
+.business-card-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  
+  /* PROPORTIONAL FIX: Scaled down from 4rem so it doesn't crush the content */
+  padding: 0 2.5rem;
+  box-sizing: border-box; 
+  
+  background: linear-gradient(135deg, #0ea5e9 0%, #0052cc 50%, #03203e 100%);
+  /* Scaled corner radius to match the smaller 500px box */
+  border-radius: 2.5rem; 
+  
+  transform: rotateY(180deg) translateZ(30px); 
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease 0s; 
+  overflow: hidden; 
+}
+
+.scrolled-hero .business-card-content {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.5s ease 0.4s; 
+}
+
+/* --- Top Left Logo --- */
+.biz-logo-top {
+  position: absolute;
+  top: 1.5rem; /* Scaled down offset */
+  left: 2.5rem; /* Matches new padding */
+  width: 35px; /* Scaled down logo */
+}
+
+.white-logo {
+  width: 100%;
+  display: block;
+  filter: brightness(0) invert(1); 
+}
+
+/* --- Main Layout --- */
+.biz-card-layout {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem; /* Scaled down gap */
+  width: 100%;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin-top: -1rem; 
+  z-index: 2; 
+}
+
+/* 1x1 Image Placeholder */
+.biz-avatar {
+  width: 105px; /* Scaled down from 140px */
+  height: 105px;
+  background-color: #d1d5db;
+  flex-shrink: 0;
+}
+
+/* Text Details */
+.biz-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem; /* Tighter gap between text blocks */
+  white-space: nowrap; 
+}
+
+.detail-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.detail-group h3 {
+  margin: 0;
+  font-size: 1.25rem; /* Scaled down from 1.6rem to fit 500px width */
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.biz-label {
+  font-size: 0.8rem; /* Scaled down label */
+  color: #ffffff; 
+  font-weight: 400;
+}
+
+/* --- Social Icons Row --- */
+.biz-socials {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.15rem;
+}
+
+.biz-socials a {
+  display: flex;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* OVERRIDE: Scales down the SVGs from 30px to 24px via CSS so you don't have to edit the React file */
+.biz-socials a svg {
+  width: 24px;
+  height: 24px;
+}
+
+.biz-socials a:hover {
+  transform: translateY(-2px);
+  opacity: 0.85;
+}
+
+/* --- Bottom White Stripe --- */
+.biz-stripe {
+  position: absolute;
+  bottom: 1.5rem; /* Scaled down offset */
+  left: 0;
+  width: 100%;
+  height: 35px; /* Thinner stripe to match smaller card */
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+/* 1x1 Image Placeholder Container */
+.biz-avatar {
+  width: 130px; 
+  height: 130px;
+  background-color: #d1d5db;
+  flex-shrink: 0;
+  
+  /* NEW: Adds rounded corners and stops the image from bleeding outside */
+  border-radius: 8px; 
+  overflow: hidden; 
+}
+
+/* NEW: Styles the actual image inside the box */
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  
+  /* CRITICAL: object-fit cover ensures your face never gets squished, 
+     even if the image isn't perfectly square! */
+  object-fit: cover; 
+  display: block;
+}
+
+/* ==================================================== */
+/* 🚀 THE FINAL EXIT ANIMATION 🚀                       */
+/* ==================================================== */
+
+.exit-hero .hero-image-wrapper {
+  /* CHANGED: Swapped -150vw to 150vw so it shoots off the RIGHT edge of the screen! */
+  /* Keeps the 180deg flip intact so it doesn't spin while exiting */
+  transform: translateX(150vw) rotateY(180deg) scale(1) !important;
+  
+  /* Faster, sharp easing for a swift, cinematic exit */
+  transition: transform 0.6s cubic-bezier(0.5, -0.1, 0.1, 1) !important; 
+}
 /* --- Animations --- */
 @keyframes clawMachineDrop {
   0% { transform: translateY(-800px) rotate(-80deg); animation-timing-function: ease-in; }
@@ -299,13 +472,59 @@
 }
 
 
-/* --- Responsive Adjustments --- */
+/* ==================================================== */
+/* 📱 CONSOLIDATED RESPONSIVE FIXES 📱                  */
+/* ==================================================== */
+
 @media (max-width: 900px) {
+  /* Animation behavior on mobile */
   .scrolled-hero .hero-content {
     transform: translateY(150px) scale(0.1) rotate(15deg);
   }
   .scrolled-hero .hero-image-wrapper {
+    flex: 0 0 auto;
+    width: 100%;
+    /* Flips perfectly vertically on mobile */
     transform: translateY(-50px) rotateX(180deg) scale(0.85); 
+  }
+  .scrolled-hero .tupperware-card {
+    /* Keeps a nice portrait badge ratio for phone screens */
+    aspect-ratio: 1 / 1.5; 
+  }
+
+  /* Business Card Mobile Layout */
+  .business-card-content {
+    /* Match the X-axis flip so the text faces forward on mobile */
+    transform: rotateX(180deg) translateZ(30px); 
+    padding: 0 1.5rem;
+    justify-content: center;
+  }
+  .biz-logo-top {
+    top: 1.5rem;
+    left: 1.5rem;
+    width: 35px;
+  }
+  .biz-card-layout {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    margin-top: 0;
+  }
+  .biz-avatar {
+    width: 100px;
+    height: 100px;
+  }
+  .biz-details {
+    /* Lets text wrap naturally on tiny screens */
+    white-space: normal; 
+    gap: 1rem;
+  }
+  .detail-group h3 {
+    font-size: 1.25rem;
+  }
+  .biz-stripe {
+    bottom: 1.5rem;
+    height: 25px;
   }
 }
 
@@ -315,13 +534,11 @@
     padding: 3rem 1.5rem;
     text-align: center;
   }
-
   .tupperware-card {
     transform: none !important; 
     max-width: 320px; 
     margin: 0 auto; 
   }
-  
   .hero-status { justify-content: center; }
   .resume-btn { margin: 1rem auto; }
   .social-links { justify-content: center; }

@@ -1,22 +1,139 @@
+/* Skills.css */
+
 .skills-section {
-  display: grid;
-  grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr);
-  gap: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-width: 1180px;
   margin: 0 auto;
   padding: 8rem 2rem;
   scroll-margin-top: 2rem;
 }
 
-.skills-section .section-heading h2 { margin: 0.5rem 0 0; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 400; line-height: 0.95; }
-.skills-section .section-number,
-.skills-section .section-kicker { color: var(--blue); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-.skills-section .section-number { display: block; }
-.skills-section .section-kicker { margin: 0.8rem 0 0; }
-.skill-list { display: flex; flex-wrap: wrap; align-content: start; gap: 0.8rem; padding-top: 2.1rem; }
-.skill-tag { border: 1px solid var(--line); border-radius: 999px; padding: 0.7rem 1.15rem; font-size: 1rem; }
+/* --- Centered Heading Styling --- */
+.skills-heading {
+  text-align: center;
+  margin-bottom: 4rem; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.skills-heading h2 {
+  margin: 0.5rem 0 0;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 400;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.skills-subtitle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.section-number,
+.section-kicker {
+  margin: 0 !important; 
+  color: #007bff; 
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* --- The Grid Container --- */
+.skills-grid-container {
+  width: 100%;
+  background-color: transparent; 
+  padding: 0;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 4rem 3rem;
+  justify-items: center;
+  align-items: center;
+}
+
+/* --- The Icons & Target Hover Effect --- */
+.skill-icon-wrapper {
+  position: relative; /* CRITICAL: Allows us to pin the brackets to this box */
+  width: 90px; /* Made the box slightly larger than the logo so the brackets have room */
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease;
+  cursor: pointer; /* Normal pointer hand cursor */
+}
+
+/* 🎯 THE TARGET BRACKETS: Draws the 4 corners as a hidden overlay */
+.skill-icon-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
+  
+  /* Draws the 4 black corners precisely */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M2,25 V2 H25 M75,2 H98 V25 M98,75 V98 H75 M25,98 H2 V75' fill='none' stroke='%23000000' stroke-width='5'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  
+  /* Starts invisible and slightly shrunk for a "lock on" animation effect */
+  opacity: 0;
+  transform: scale(0.85); 
+  transition: all 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  pointer-events: none; /* Prevents the brackets from messing with your mouse */
+}
+
+/* On Hover: Pops the logo up slightly */
+.skill-icon-wrapper:hover {
+  transform: translateY(-5px) scale(1.05);
+}
+
+/* On Hover: Fades in and snaps the target brackets into place! */
+.skill-icon-wrapper:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.skill-icon {
+  width: 55px; /* Logo stays at 55px safely inside the 90px bracket box */
+  height: 55px;
+  object-fit: contain;
+  
+  /* CSS FILTER: Converts any colored SVG into your exact #007bff primary blue! */
+  filter: brightness(0) saturate(100%) invert(39%) sepia(80%) saturate(1513%) hue-rotate(195deg) brightness(98%) contrast(105%);
+}
+
+/* ==================================================== */
+/* 📱 RESPONSIVE DESIGN 📱                              */
+/* ==================================================== */
 
 @media (max-width: 760px) {
-  .skills-section { grid-template-columns: 1fr; gap: 2.5rem; padding: 5rem 2rem; }
-  .skill-list { padding-top: 0; }
+  .skills-section { 
+    padding: 5rem 2rem; 
+  }
+  
+  .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 3rem 2rem;
+  }
+  
+  /* Scale the boxes down proportionately for phones */
+  .skill-icon-wrapper {
+    width: 75px;
+    height: 75px;
+  }
+  
+  .skill-icon {
+    width: 45px;
+    height: 45px;
+  }
 }

@@ -1,25 +1,35 @@
 .about-section {
   display: grid;
-  grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr);
+  /* Updated grid to give the card enough space on the left */
+  grid-template-columns: minmax(450px, 1fr) 1.2fr;
   gap: 5rem;
-  max-width: 1180px;
+  max-width: 1250px; /* Slightly wider to accommodate the two-column design comfortably */
   margin: 0 auto;
   padding: 8rem 2rem;
   scroll-margin-top: 2rem;
+  align-items: center; /* Vertically centers the text alongside the card */
+}
+
+/* --- Left Column Typography --- */
+.about-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .section-heading h2 {
   margin: 0.5rem 0 0;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: clamp(3rem, 7vw, 6rem);
+  font-size: clamp(3rem, 6vw, 5rem);
   font-weight: 400;
   line-height: 0.95;
+  text-transform: uppercase;
 }
 
 .section-number,
 .section-kicker {
-  color: var(--blue);
-  font-size: 0.72rem;
+  color: var(--blue, #007bff);
+  font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -27,11 +37,229 @@
 
 .section-number { display: block; }
 .section-kicker { margin: 0.8rem 0 0; }
-.about-copy { max-width: 650px; padding-top: 2.1rem; }
-.about-copy p { color: var(--muted); font-size: 1.05rem; line-height: 1.8; }
-.about-copy .section-lead { margin: 0 0 1.5rem; color: var(--text); font-size: clamp(1.35rem, 2.5vw, 2rem); line-height: 1.35; }
 
-@media (max-width: 760px) {
-  .about-section { grid-template-columns: 1fr; gap: 2.5rem; padding: 5rem 2rem; }
-  .about-copy { padding-top: 0; }
+
+/* --- Right Column Typography --- */
+.about-copy {
+  max-width: 650px;
+}
+
+.about-copy p {
+  color: var(--text, #333333);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+
+.about-copy .section-lead {
+  margin: 0 0 1.5rem;
+  color: #000000;
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+
+/* ==================================================== */
+/* 💳 THE ABOUT PAGE BUSINESS CARD 💳                   */
+/* ==================================================== */
+
+/* ==================================================== */
+/* 💳 THE ABOUT PAGE BUSINESS CARD 💳                   */
+/* ==================================================== */
+
+.about-card-wrapper {
+  /* Animation Start State */
+  opacity: 0;
+  /* Pulled further off-screen to make the entrance more dramatic */
+  transform: translateX(-250px); 
+  
+  /* Standard transition for resetting */
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.about-card-wrapper.slide-in {
+  /* Animation End State */
+  opacity: 1;
+  transform: translateX(0);
+  
+  /* CHANGED: Added exactly a 2s delay before it slides in! */
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); 
+}
+
+.about-biz-card {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 5 / 3.2; /* Same proportion as Hero */
+  background: linear-gradient(135deg, #0ea5e9 0%, #0052cc 50%, #03203e 100%);
+  border-radius: 2.5rem; 
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 2.5rem;
+  box-sizing: border-box; 
+  overflow: hidden; 
+  box-shadow: 0 20px 40px rgba(0, 82, 204, 0.15); /* Clean drop shadow for the page */
+}
+
+/* Card Internal Layout (Reused from Hero but scoped to About) */
+.about-biz-card .biz-logo-top {
+  position: absolute;
+  top: 1.5rem;
+  left: 2.5rem; 
+  width: 35px;
+}
+
+.about-biz-card .white-logo {
+  width: 100%;
+  display: block;
+  filter: brightness(0) invert(1); 
+}
+
+.about-biz-card .biz-card-layout {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin-top: -1rem; 
+  z-index: 2; 
+}
+
+.about-biz-card .biz-avatar {
+  width: 130px; 
+  height: 130px;
+  background-color: #d1d5db;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.about-biz-card .avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-biz-card .biz-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  white-space: nowrap; 
+}
+
+.about-biz-card .detail-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.about-biz-card .detail-group h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.about-biz-card .biz-label {
+  font-size: 0.8rem;
+  color: #ffffff; 
+  font-weight: 400;
+}
+
+.about-biz-card .biz-socials {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.15rem;
+}
+
+.about-biz-card .biz-socials a {
+  display: flex;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.about-biz-card .biz-socials a svg {
+  width: 24px;
+  height: 24px;
+}
+
+.about-biz-card .biz-socials a:hover {
+  transform: translateY(-2px);
+  opacity: 0.85;
+}
+
+.about-biz-card .biz-stripe {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 0;
+  width: 100%;
+  height: 35px;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+/* ==================================================== */
+/* 📱 RESPONSIVE ADJUSTMENTS 📱                         */
+/* ==================================================== */
+
+@media (max-width: 1024px) {
+  .about-section {
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 850px) {
+  .about-section { 
+    grid-template-columns: 1fr; 
+    gap: 3rem; 
+    padding: 5rem 2rem; 
+  }
+  
+  .about-card-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .about-biz-card {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 500px) {
+  /* Adapts the card for very small phone screens */
+  .about-biz-card {
+    padding: 0 1.5rem;
+    aspect-ratio: auto;
+    padding-bottom: 4rem;
+    padding-top: 4rem;
+  }
+  
+  .about-biz-card .biz-card-layout {
+    flex-direction: column;
+    text-align: center;
+    margin-top: 0;
+  }
+
+  .about-biz-card .biz-details {
+    white-space: normal;
+  }
+
+  .about-biz-card .biz-socials {
+    justify-content: center;
+  }
+  
+  .about-biz-card .biz-logo-top {
+    top: 1rem;
+    left: 1.5rem;
+    width: 25px;
+  }
+  
+  .about-biz-card .biz-stripe {
+    bottom: 1rem;
+    height: 20px;
+  }
 }
