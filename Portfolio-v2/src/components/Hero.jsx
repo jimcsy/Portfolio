@@ -188,12 +188,17 @@ export default function Hero() {
         </div>
       </div>
 
+      {/* Right Column: Image & 3D Card */}
       <div 
         className="hero-image-wrapper"
         ref={wrapperRef}
         onPointerMove={handleMouseMove}
         onPointerLeave={handleMouseLeave}
       >
+        
+        {/* NEW: The glitch-proof dedicated shadow layer! It tracks the exact same 3D movement. */}
+        <div className="card-shadow" style={{ transform: transformStyle }}></div>
+        
         <div className="tupperware-card" style={{ transform: transformStyle }}>
           
           <div className="falling-toys-container">

@@ -1,17 +1,236 @@
-.experience-section { display: grid; grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr); gap: 5rem; max-width: 1180px; margin: 0 auto; padding: 8rem 2rem; scroll-margin-top: 2rem; }
-.experience-section .section-heading h2 { margin: 0.5rem 0 0; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 400; line-height: 0.95; }
-.experience-section .section-number,
-.experience-section .section-kicker { color: var(--blue); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-.experience-section .section-number { display: block; }
-.experience-section .section-kicker { margin: 0.8rem 0 0; }
-.experience-list { padding-top: 1rem; }
-.experience-item { display: grid; grid-template-columns: 135px 1fr; gap: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--line); }
-.experience-item:last-child { border-bottom: 1px solid var(--line); }
-.experience-period { color: var(--blue); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-.experience-item h3 { margin: 0; font-size: 1.5rem; font-weight: 600; }
-.experience-item p { margin: 0.65rem 0 0; color: var(--muted); font-size: 1.05rem; line-height: 1.8; }
+/* Experience.css */
 
-@media (max-width: 760px) {
-  .experience-section { grid-template-columns: 1fr; gap: 2.5rem; padding: 5rem 2rem; }
-  .experience-item { grid-template-columns: 1fr; gap: 0.55rem; }
+.experience-section {
+  display: flex;
+  flex-direction: column;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 8rem 2rem;
+  scroll-margin-top: 2rem;
+}
+
+/* --- STRICTLY SCOPED HEADING (Will NEVER touch the About section!) --- */
+.experience-section .section-heading {
+  width: 100%;
+  margin: 0 0 4rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Locks title to the left edge */
+  text-align: left;
+}
+
+.experience-section .section-heading h2 {
+  margin: 0.5rem 0 0;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 400;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.experience-section .heading-subtitle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.experience-section .section-number,
+.experience-section .section-kicker {
+  margin: 0 !important; 
+  color: #007bff; 
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ==================================================== */
+/* 📅 INDENTED TIMELINE LAYOUT 📅                       */
+/* ==================================================== */
+
+.timeline-container {
+  position: relative;
+  width: 100%;
+  max-width: 950px;
+  
+  /* INDENTATION: Pushes the timeline content in from the left, keeping the heading wide */
+  margin-left: clamp(2rem, 8vw, 6rem); 
+  padding-left: 2.5rem;
+}
+
+/* The vertical track colored with your cinematic gradient */
+.timeline-container::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #004d96 0%, #877b1a 35%, #003e7e 65%, #7a6e15 100%);
+  border-radius: 3px;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 4rem;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+/* The dots on the timeline */
+.timeline-dot {
+  position: absolute;
+  left: calc(-2.5rem - 6.5px); /* Centers it perfectly on the 3px track */
+  top: 8px;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #004d96 0%, #877b1a 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px #ffffff; /* Clean white cutout around the dot */
+}
+
+
+/* ==================================================== */
+/* 📝 EXPERIENCE CONTENT 📝                             */
+/* ==================================================== */
+
+.experience-content {
+  background-color: #ffffff;
+}
+
+/* Role Title */
+.experience-role {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111111;
+  margin: 0 0 0.25rem 0;
+  letter-spacing: -0.5px;
+}
+
+/* Company Name with Gradient Text */
+.experience-company-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.experience-company {
+  font-size: 1.15rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #007bff 0%, #7a6e15 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.external-link-icon {
+  width: 16px;
+  height: 16px;
+  color: #007bff;
+}
+
+/* Meta Bar (Location & Date) */
+.experience-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+  color: #666666;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.meta-item svg {
+  width: 16px;
+  height: 16px;
+  color: #888888;
+}
+
+/* Bullet Points */
+.experience-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.experience-bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #333333;
+}
+
+.bullet-arrow {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: #007bff; 
+  margin-top: 4px;
+}
+
+/* Skills Tags Container */
+.experience-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  border-top: 1px solid #eaeaea;
+  padding-top: 1.25rem;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: rgba(0, 123, 255, 0.08); 
+  color: #0062cc; 
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.tag svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ==================================================== */
+/* 📱 RESPONSIVE DESIGN 📱                              */
+/* ==================================================== */
+
+@media (max-width: 768px) {
+  .experience-section {
+    padding: 5rem 1.5rem;
+  }
+  
+  .timeline-container {
+    margin-left: 0; /* Removes the deep indent on small screens */
+    padding-left: 2rem; 
+  }
+
+  .timeline-dot {
+    left: calc(-2rem - 6.5px);
+  }
+
+  .experience-role {
+    font-size: 1.5rem;
+  }
+
+  .experience-meta {
+    gap: 0.75rem;
+    flex-direction: column; 
+  }
 }

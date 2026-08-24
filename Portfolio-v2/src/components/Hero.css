@@ -24,8 +24,9 @@
   gap: 1.5rem;
   opacity: 1;
   transform: translateX(0) scale(1) rotate(0deg);
-  transition: all 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
   transform-origin: right center; 
+  /* Home Reset Animation */
+  animation: homeResetFade 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Status Bar */
@@ -141,38 +142,86 @@
   -webkit-user-select: none;
   -webkit-user-drag: none;
   touch-action: none;
-  transition: transform 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5);
   transform-style: preserve-3d;
+  /* Home Reset Animation */
+  animation: homeResetFade 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+/* Clean reset animation when returning to Home */
+@keyframes homeResetFade {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- UPDATED MAIN CARD --- */
 .tupperware-card {
   position: relative;
+  z-index: 2; /* Forces the card to sit above the shadow layer */
   width: 100%;
   max-width: 440px; 
   aspect-ratio: 4 / 5.5; 
-  background-color: rgba(0, 98, 204, 0.35); 
-  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(0, 98, 204, 0.6) 100%);
+  
+  background: linear-gradient(135deg, #004d96 0%, #877b1a 35%, #003e7e 65%, #7a6e15 100%);
+  
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2); 
   border-top: 1px solid rgba(255, 255, 255, 0.45); 
   border-left: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 3rem;
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15), 0 20px 40px rgba(0, 98, 204, 0.25);
+  
+  /* CHANGED: Removed the outer shadow, kept only the glossy inset shine */
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15);
+              
   overflow: hidden; 
   display: flex;
   align-items: flex-end; 
   justify-content: center;
+  
   transition: transform 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67), 
-              box-shadow 0.3s ease,
               max-width 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5),
               aspect-ratio 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
   transform-style: preserve-3d;
   will-change: transform;
 }
 
+/* --- NEW: Glitch-Proof Dedicated Shadow Layer --- */
+.card-shadow {
+  position: absolute;
+  z-index: 1; /* Forces it to sit behind the tupperware card */
+  width: 100%;
+  max-width: 440px; 
+  aspect-ratio: 4 / 5.5; 
+  border-radius: 3rem;
+  background: transparent;
+  
+  /* The persistent base blue shadow */
+  box-shadow: 0 20px 40px rgba(0, 98, 204, 0.25);
+  
+  /* Matches the card's exact animation timings */
+  transition: transform 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67), 
+              box-shadow 0.3s ease,
+              max-width 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5),
+              aspect-ratio 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
+  will-change: transform;
+}
+
+/* The dynamic shadow triggers when hovering the wrapper, applying to our shadow layer! */
+.hero-image-wrapper:hover .card-shadow {
+  box-shadow: calc(var(--move-x, 0) * -60px) 
+              calc(var(--move-y, 0) * -60px + 30px) 
+              60px rgba(0, 98, 204, 0.5); 
+}
+
 .tupperware-card:hover {
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2), 20px 30px 50px rgba(0, 98, 204, 0.5); 
+  /* Only brightens the internal shine on hover */
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2); 
 }
 
 /* Glossy reflection */
@@ -188,10 +237,30 @@
   transition: all 0.7s ease;
   z-index: 20; 
   pointer-events: none;
+  
+  /* ADDED: Forces the gloss to respect the rounded corners! */
+  border-radius: inherit; 
 }
-
 .tupperware-card:hover::before {
   left: 150%; 
+}
+
+/* NEW: Cinematic noise overlay that sits on the very top layer of the Tupperware */
+.tupperware-card::after {
+  content: "";
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
+  z-index: 25; 
+  pointer-events: none; 
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.35; 
+  mix-blend-mode: overlay;
+  
+  /* ADDED: Snips off those gray square edges so it fits the curve perfectly! */
+  border-radius: inherit; 
 }
 
 /* Enlarged Profile Image */
@@ -265,15 +334,26 @@
   transform: translateX(300px) scale(0.1) rotate(15deg); 
   filter: blur(10px);
   pointer-events: none; 
+  /* Transitions only apply when scrolling forward */
+  transition: all 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5);
+  animation: none;
+}
+
+/* Fades out the 3D shadow beautifully as the card flips and morphs */
+.scrolled-hero .card-shadow {
+  max-width: 500px;
+  aspect-ratio: 5 / 3.2;
+  opacity: 0; 
+  transition: all 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5);
 }
 
 .scrolled-hero .hero-image-wrapper {
   flex: 0 0 min(605px, calc(100vw - 4rem));
   width: min(605px, calc(100vw - 4rem));
-  
-  /* CHANGED: Reduced -350px to -150px to keep it perfectly in the center! */
-  /* Also changed scale(0.95) to scale(1) so it doesn't shrink */
   transform: translateX(-280px) rotateY(180deg) scale(1); 
+  /* Transitions only apply when scrolling forward */
+  transition: transform 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5), width 0.8s, flex 0.8s;
+  animation: none;
 }
 
 .scrolled-hero .tupperware-card {
@@ -308,20 +388,44 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  
-  /* PROPORTIONAL FIX: Scaled down from 4rem so it doesn't crush the content */
   padding: 0 2.5rem;
   box-sizing: border-box; 
   
-  background: linear-gradient(135deg, #0ea5e9 0%, #0052cc 50%, #03203e 100%);
-  /* Scaled corner radius to match the smaller 500px box */
-  border-radius: 2.5rem; 
+  /* CHANGED: Matches the front side's cinematic blue and golden-olive gradient */
+  background: linear-gradient(135deg, #004d96 0%, #877b1a 35%, #003e7e 65%, #7a6e15 100%);
   
+  border-radius: 2.5rem; 
   transform: rotateY(180deg) translateZ(30px); 
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease 0s; 
   overflow: hidden; 
+}
+
+/* NEW: Cinematic noise overlay for the flipped backside */
+.business-card-content::after {
+  content: "";
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
+  
+  /* Forces the noise to sit above your text, image, and white stripe */
+  z-index: 99; 
+  
+  /* CRITICAL: Allows the user's mouse to click right through the noise to the social links */
+  pointer-events: none; 
+  
+  /* Generates mathematical static noise */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  
+  /* Blends it smoothly into the colors below */
+  opacity: 0.35; 
+  mix-blend-mode: overlay;
+  
+  /* Inherits the 2.5rem curve from the container so you don't get gray corners */
+  border-radius: inherit;
 }
 
 .scrolled-hero .business-card-content {
@@ -333,9 +437,9 @@
 /* --- Top Left Logo --- */
 .biz-logo-top {
   position: absolute;
-  top: 1.5rem; /* Scaled down offset */
-  left: 2.5rem; /* Matches new padding */
-  width: 35px; /* Scaled down logo */
+  top: 1.5rem; 
+  left: 2.5rem; 
+  width: 35px; 
 }
 
 .white-logo {
@@ -348,7 +452,7 @@
 .biz-card-layout {
   display: flex;
   align-items: center;
-  gap: 1.5rem; /* Scaled down gap */
+  gap: 1.5rem; 
   width: 100%;
   color: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -356,19 +460,28 @@
   z-index: 2; 
 }
 
-/* 1x1 Image Placeholder */
+/* 1x1 Image Placeholder Container */
 .biz-avatar {
-  width: 105px; /* Scaled down from 140px */
-  height: 105px;
+  width: 130px; 
+  height: 130px;
   background-color: #d1d5db;
   flex-shrink: 0;
+  border-radius: 8px; 
+  overflow: hidden; 
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  display: block;
 }
 
 /* Text Details */
 .biz-details {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem; /* Tighter gap between text blocks */
+  gap: 0.85rem; 
   white-space: nowrap; 
 }
 
@@ -380,13 +493,13 @@
 
 .detail-group h3 {
   margin: 0;
-  font-size: 1.25rem; /* Scaled down from 1.6rem to fit 500px width */
+  font-size: 1.25rem; 
   font-weight: 500;
   letter-spacing: 0.5px;
 }
 
 .biz-label {
-  font-size: 0.8rem; /* Scaled down label */
+  font-size: 0.8rem; 
   color: #ffffff; 
   font-weight: 400;
 }
@@ -404,7 +517,6 @@
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* OVERRIDE: Scales down the SVGs from 30px to 24px via CSS so you don't have to edit the React file */
 .biz-socials a svg {
   width: 24px;
   height: 24px;
@@ -418,35 +530,12 @@
 /* --- Bottom White Stripe --- */
 .biz-stripe {
   position: absolute;
-  bottom: 1.5rem; /* Scaled down offset */
+  bottom: 1.5rem; 
   left: 0;
   width: 100%;
-  height: 35px; /* Thinner stripe to match smaller card */
+  height: 35px; 
   background-color: #ffffff;
   z-index: 1;
-}
-
-/* 1x1 Image Placeholder Container */
-.biz-avatar {
-  width: 130px; 
-  height: 130px;
-  background-color: #d1d5db;
-  flex-shrink: 0;
-  
-  /* NEW: Adds rounded corners and stops the image from bleeding outside */
-  border-radius: 8px; 
-  overflow: hidden; 
-}
-
-/* NEW: Styles the actual image inside the box */
-.avatar-img {
-  width: 100%;
-  height: 100%;
-  
-  /* CRITICAL: object-fit cover ensures your face never gets squished, 
-     even if the image isn't perfectly square! */
-  object-fit: cover; 
-  display: block;
 }
 
 /* ==================================================== */
@@ -454,13 +543,11 @@
 /* ==================================================== */
 
 .exit-hero .hero-image-wrapper {
-  /* CHANGED: Swapped -150vw to 150vw so it shoots off the RIGHT edge of the screen! */
-  /* Keeps the 180deg flip intact so it doesn't spin while exiting */
+  /* Shoots off the RIGHT edge of the screen */
   transform: translateX(150vw) rotateY(180deg) scale(1) !important;
-  
-  /* Faster, sharp easing for a swift, cinematic exit */
   transition: transform 0.6s cubic-bezier(0.5, -0.1, 0.1, 1) !important; 
 }
+
 /* --- Animations --- */
 @keyframes clawMachineDrop {
   0% { transform: translateY(-800px) rotate(-80deg); animation-timing-function: ease-in; }
@@ -471,30 +558,23 @@
   95%, 100% { transform: translateY(0px) rotate(var(--final-rot)); }
 }
 
-
 /* ==================================================== */
 /* 📱 CONSOLIDATED RESPONSIVE FIXES 📱                  */
 /* ==================================================== */
 
 @media (max-width: 900px) {
-  /* Animation behavior on mobile */
   .scrolled-hero .hero-content {
     transform: translateY(150px) scale(0.1) rotate(15deg);
   }
   .scrolled-hero .hero-image-wrapper {
     flex: 0 0 auto;
     width: 100%;
-    /* Flips perfectly vertically on mobile */
     transform: translateY(-50px) rotateX(180deg) scale(0.85); 
   }
   .scrolled-hero .tupperware-card {
-    /* Keeps a nice portrait badge ratio for phone screens */
     aspect-ratio: 1 / 1.5; 
   }
-
-  /* Business Card Mobile Layout */
   .business-card-content {
-    /* Match the X-axis flip so the text faces forward on mobile */
     transform: rotateX(180deg) translateZ(30px); 
     padding: 0 1.5rem;
     justify-content: center;
@@ -515,7 +595,6 @@
     height: 100px;
   }
   .biz-details {
-    /* Lets text wrap naturally on tiny screens */
     white-space: normal; 
     gap: 1rem;
   }
