@@ -1,21 +1,327 @@
-.projects-section { display: grid; grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr); gap: 5rem; max-width: 1180px; margin: 0 auto; padding: 8rem 2rem; scroll-margin-top: 2rem; }
-.projects-section .section-heading h2 { margin: 0.5rem 0 0; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 400; line-height: 0.95; }
-.projects-section .section-number,
-.projects-section .section-kicker,
-.project-type { color: var(--blue); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-.projects-section .section-number { display: block; }
-.projects-section .section-kicker { margin: 0.8rem 0 0; }
-.project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-.project-card { min-height: 320px; padding: 1.5rem; border: 1px solid var(--line); display: flex; flex-direction: column; }
-.project-number { font-size: 0.85rem; font-weight: 700; }
-.project-type { margin: 3.5rem 0 0.7rem; }
-.project-card h3 { margin: 0; font-size: 1.5rem; font-weight: 600; }
-.project-card > p:not(.project-type) { margin: 0.8rem 0 1.5rem; color: var(--muted); font-size: 0.95rem; line-height: 1.8; }
-.project-link { margin-top: auto; color: var(--blue); font-weight: 600; }
-.project-link span { display: inline-block; margin-left: 0.3rem; }
+/* Projects.css */
 
-@media (max-width: 760px) {
-  .projects-section { grid-template-columns: 1fr; gap: 2.5rem; padding: 5rem 2rem; }
-  .project-grid { grid-template-columns: 1fr; }
-  .project-card { min-height: 250px; }
+/* ==================================================== */
+/* 🔒 THE STICKY SCROLL CONTAINER 🔒                    */
+/* ==================================================== */
+
+/* We make the section 300vh tall (100vh for each of the 3 projects)
+   This gives the user enough room to scroll down and trigger the slider! */
+.projects-scroll-section {
+  position: relative;
+  /* CHANGED: Shorter height means a small scroll triggers it faster! */
+  height: 250vh; 
+}
+
+/* This wrapper literally "sticks" to the screen while you scroll through the 300vh section */
+.sticky-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh; /* Locks to the exact size of the user's screen */
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.projects-content {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ==================================================== */
+/* 🧩 SPLIT HEADER LAYOUT 🧩                            */
+/* ==================================================== */
+
+.projects-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+}
+
+.heading-subtitle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-number,
+.section-kicker {
+  margin: 0 !important; 
+  color: #007bff; 
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.projects-heading-left h2 {
+  margin: 0.5rem 0 0;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 400;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: #111111;
+}
+
+.projects-heading-right p {
+  font-size: 1.15rem;
+  color: #333333;
+  line-height: 1.6;
+  margin: 0;
+  padding-bottom: 0.5rem;
+}
+
+/* ==================================================== */
+/* 🚀 FLASHCARD CAROUSEL 🚀                             */
+/* ==================================================== */
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 980px; /* CHANGED: Pulls the edges in so it doesn't span the entire screen */
+  margin: 0 auto;   /* Centers the slimmed-down card */
+  overflow: hidden; 
+  border-radius: 1.25rem; /* Slightly tighter corners */
+  background-color: #fafafa;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+}
+
+.carousel-track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.project-feature-card {
+  flex: 0 0 100%; 
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  min-width: 100%;
+}
+
+/* --- Left Column: Content --- */
+.project-content {
+  padding: 2.5rem 3rem; /* CHANGED: Drastically reduced the massive padding */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.project-tagline {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555555;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.project-title {
+  font-size: 2rem; /* CHANGED: Scaled down from 2.5rem */
+  font-weight: 600;
+  color: #111111;
+  margin: 0 0 1rem 0;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.project-description {
+  font-size: 0.95rem; /* CHANGED: Slightly smaller text for a tighter block */
+  color: #666666;
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Theme: Soft Blue Pills */
+.project-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem; /* Reduced gap before buttons */
+}
+
+.tech-pill {
+  background-color: #eef5ff; 
+  color: #0056b3; 
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* --- Action Buttons --- */
+.project-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.btn-primary, .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.2rem; /* Slimmer buttons */
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary { background-color: #111111; color: #ffffff; border: 1px solid #111111; }
+.btn-primary:hover { background-color: #333333; }
+.btn-secondary { background-color: transparent; color: #111111; border: 1px solid #d4d4d8; }
+.btn-secondary:hover { background-color: #f4f4f5; border-color: #111111; }
+.btn-primary svg, .btn-secondary svg { width: 16px; height: 16px; }
+
+/* --- Right Column: Visual/Image --- */
+.project-visual {
+  background: linear-gradient(135deg, #e0edff 0%, #f4f4f5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem; /* CHANGED: Less padding around the image container */
+  border-left: 1px solid #eaeaea;
+  position: relative;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 280px; /* CHANGED: Shaved 120px off the minimum height! */
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 2px dashed #0056b3;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0056b3;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* ==================================================== */
+/* 🎯 CAROUSEL CONTROLS (Arrows Lightened!) 🎯          */
+/* ==================================================== */
+
+.carousel-arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px; 
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+/* Changed arrows to dark blue so they pop without needing a heavy black shadow */
+.carousel-arrow svg {
+  width: 32px;
+  height: 32px;
+  color: #0056b3; 
+  opacity: 0.6;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* FIXED: Shadow drastically lightened! */
+.arrow-right {
+  right: 0;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.05));
+}
+
+.arrow-right:hover svg {
+  opacity: 1;
+  transform: translateX(5px); 
+}
+
+/* FIXED: Shadow drastically lightened! */
+.arrow-left {
+  left: 0;
+  background: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.05));
+}
+
+.arrow-left:hover svg {
+  opacity: 1;
+  transform: translateX(-5px); 
+}
+
+.carousel-arrow.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ==================================================== */
+/* 🔵 BOTTOM DOT INDICATORS 🔵                          */
+/* ==================================================== */
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d4d4d8; 
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background-color: #0056b3; 
+  transform: scale(1.2);
+}
+
+.dot:hover:not(.active) {
+  background-color: #a1a1aa;
+}
+
+/* ==================================================== */
+/* 📱 RESPONSIVE DESIGN 📱                              */
+/* ==================================================== */
+
+@media (max-width: 960px) {
+  
+  /* On mobile, we turn off the sticky scroll since vertical room is limited */
+  .projects-scroll-section { height: auto; padding: 5rem 0; }
+  .sticky-wrapper { position: relative; height: auto; }
+  .projects-content { padding: 0 1.5rem; }
+
+  .projects-header {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .projects-heading-right p { padding-bottom: 0; }
+
+  .project-feature-card {
+    grid-template-columns: 1fr; 
+  }
+
+  .project-visual {
+    order: -1; 
+    border-left: none;
+    border-bottom: 1px solid #eaeaea;
+    padding: 2rem;
+  }
+  
+  .image-placeholder { min-height: 250px; }
+  .project-content { padding: 2.5rem 2rem; }
+  .project-title { font-size: 2rem; }
 }
