@@ -53,26 +53,69 @@
   position: relative;
   width: 100%;
   max-width: 950px;
-  
-  /* INDENTATION: Pushes the timeline content in from the left, keeping the heading wide */
   margin-left: clamp(2rem, 8vw, 6rem); 
   padding-left: 2.5rem;
 }
 
-/* The vertical track colored with your cinematic gradient */
-.timeline-container::before {
-  content: "";
+/* 1. The Empty Light-Gray Track */
+.timeline-track-empty {
   position: absolute;
   top: 10px;
   bottom: 0;
   left: 0;
   width: 3px;
-  background: linear-gradient(to bottom, #004d96 0%, #877b1a 35%, #003e7e 65%, #7a6e15 100%);
+  background-color: #e4e4e7; /* Subtle light gray */
   border-radius: 3px;
+  z-index: 0;
 }
 
+/* 2. The Dynamic Scrolling Colored Track */
+.timeline-track-filled {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #004d96 0%, #877b1a 35%, #003e7e 65%, #7a6e15 100%);
+  border-radius: 3px;
+  z-index: 1;
+}
+
+/* ==================================================== */
+/* 🌫️ BLUR REVEAL ANIMATIONS 🌫️                         */
+/* ==================================================== */
+
+/* DEFAULT STATE: Text is blurred and pushed down */
+.timeline-item .experience-content {
+  filter: blur(12px);
+  opacity: 0.2;
+  transform: translateY(20px);
+  transition: all 0.7s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  will-change: filter, opacity, transform;
+}
+
+/* IN-VIEW STATE: Text snaps into sharp focus */
+.timeline-item.in-view .experience-content {
+  filter: blur(0);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* TARGET LOCK: The dot ring turns blue and the core pops in! */
+.timeline-item.in-view .timeline-dot {
+  border-color: #004d96; 
+}
+
+.timeline-item.in-view .timeline-dot::after {
+  transform: scale(1); /* Snaps the vibrant inner core into view */
+}
+
+/* ==================================================== */
+/* 📍 TIMELINE ITEMS & DOTS 📍                          */
+/* ==================================================== */
+
+/* CRITICAL: Stops the dots from stacking at the top! */
 .timeline-item {
-  position: relative;
+  position: relative; 
   padding-bottom: 4rem;
 }
 
@@ -83,13 +126,31 @@
 /* The dots on the timeline */
 .timeline-dot {
   position: absolute;
-  left: calc(-2.5rem - 6.5px); /* Centers it perfectly on the 3px track */
-  top: 8px;
+  left: calc(-2.5rem - 6.5px); 
+  top: 2.5rem; /* CHANGED: Pushes the dot down to align with the header */
   width: 16px;
   height: 16px;
-  background: linear-gradient(135deg, #004d96 0%, #877b1a 100%);
+  background-color: #ffffff;
+  border: 3px solid #e4e4e7; 
   border-radius: 50%;
-  box-shadow: 0 0 0 6px #ffffff; /* Clean white cutout around the dot */
+  box-shadow: 0 0 0 6px #ffffff; 
+  z-index: 3; 
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s ease;
+}
+
+/* The inner colored core that fills up */
+.timeline-dot::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #007bff 0%, #7a6e15 100%);
+  border-radius: 50%;
+  transform: scale(0); 
+  transition: transform 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
 }
 
 
@@ -97,8 +158,42 @@
 /* 📝 EXPERIENCE CONTENT 📝                             */
 /* ==================================================== */
 
+/* --- THE 4-CORNER TARGET-LOCK HOVER EFFECT --- */
 .experience-content {
+  position: relative;
   background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 1.25rem;
+  border: 1px solid #eaeaea; /* Light default border */
+  transition: all 0.3s ease;
+}
+
+/* Creates the corner bracket overlay */
+.experience-content::before {
+  content: "";
+  position: absolute;
+  inset: -4px; /* Pulls the corners slightly outside the card */
+  border-radius: 1.35rem;
+  background: linear-gradient(135deg, #004d96 0%, #877b1a 50%, #7a6e15 100%);
+  
+  /* The Magic Mask: Cuts out the center of the box so ONLY the 4 outer corners are visible! */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  
+  padding: 3px; /* Thickness of the corner lines */
+  opacity: 0;
+  transform: scale(0.98);
+  transition: all 0.25s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  pointer-events: none;
+}
+
+/* When hovering the individual job card, the gradient corners snap into view! */
+.experience-content:hover::before {
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* Role Title */
@@ -217,7 +312,7 @@
   }
   
   .timeline-container {
-    margin-left: 0; /* Removes the deep indent on small screens */
+    margin-left: 0; 
     padding-left: 2rem; 
   }
 

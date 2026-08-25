@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Experience.css';
 
 const experiences = [
@@ -50,10 +50,57 @@ const experiences = [
 ];
 
 export default function Experience() {
+  const containerRef = useRef(null);
+  const trackRef = useRef(null);
+  const itemRefs = useRef([]); // Creates an array to hold all our timeline items
+
+  useEffect(() => {
+    // 1. Butter-Smooth Real-Time Scroll Line
+    const handleScroll = () => {
+      if (!containerRef.current || !trackRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      const startScroll = rect.top - windowHeight / 2;
+      const totalHeight = rect.height;
+      let progress = (Math.abs(Math.min(startScroll, 0)) / totalHeight) * 100;
+      progress = Math.max(0, Math.min(100, progress));
+
+      // Direct DOM manipulation bypasses React lag entirely!
+      trackRef.current.style.height = `${progress}%`;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // 2. Intersection Observer for the Blur Effect
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view'); // Unblurs when scrolling to it
+        } else {
+          entry.target.classList.remove('in-view'); // Re-blurs when scrolling past it
+        }
+      });
+    }, { 
+      threshold: 0.25, 
+      rootMargin: "-10% 0px -10% 0px" // Triggers when the item is comfortably in the screen
+    });
+
+    // Attach the observer to every experience item
+    itemRefs.current.forEach(item => {
+      if (item) observer.observe(item);
+    });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <section id="experience" className="portfolio-section experience-section">
       
-      {/* Centered Heading exactly matching About & Skills */}
       <div className="section-heading">
         <div className="heading-subtitle-wrapper">
           <span className="section-number">03</span>
@@ -62,15 +109,22 @@ export default function Experience() {
         <h2>EXPERIENCE</h2>
       </div>
 
-      <div className="timeline-container">
+      <div className="timeline-container" ref={containerRef}>
+        
+        <div className="timeline-track-empty"></div>
+        
+        {/* Added the trackRef here to control it directly via JavaScript */}
+        <div className="timeline-track-filled" ref={trackRef}></div>
+
         {experiences.map((item, index) => (
-          <div className="timeline-item" key={index}>
-            {/* The Gradient Dot on the Timeline */}
+          <div 
+            className="timeline-item" 
+            key={index} 
+            ref={el => itemRefs.current[index] = el} /* Assigns the item to our observer array */
+          >
             <div className="timeline-dot"></div>
             
             <div className="experience-content">
-              
-              {/* Role & Company */}
               <h3 className="experience-role">{item.role}</h3>
               <div className="experience-company-wrapper">
                 <span className="experience-company">{item.company}</span>
@@ -81,7 +135,6 @@ export default function Experience() {
                 </svg>
               </div>
 
-              {/* Meta Data: Location & Date */}
               <div className="experience-meta">
                 <div className="meta-item">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -101,7 +154,6 @@ export default function Experience() {
                 </div>
               </div>
 
-              {/* Custom Arrow Bullets */}
               <ul className="experience-bullets">
                 {item.bullets.map((bullet, idx) => (
                   <li key={idx}>
@@ -114,7 +166,6 @@ export default function Experience() {
                 ))}
               </ul>
 
-              {/* Skills Tags */}
               <div className="experience-tags">
                 {item.skills.map((skill, idx) => (
                   <span className="tag" key={idx}>
@@ -130,7 +181,6 @@ export default function Experience() {
           </div>
         ))}
       </div>
-
     </section>
   );
 }
