@@ -48,31 +48,32 @@
 /* --- The Grid Container --- */
 .skills-grid-container {
   width: 100%;
+  max-width: 1000px; 
   background-color: transparent; 
   padding: 0;
+  margin: 0 auto;
 }
 
 .skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 4rem 3rem;
-  justify-items: center;
-  align-items: center;
+  /* Flexbox automatically centers the bottom row! */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3.5rem 3rem;
 }
 
 /* --- The Icons & Target Hover Effect --- */
 .skill-icon-wrapper {
-  position: relative; /* CRITICAL: Allows us to pin the brackets to this box */
-  width: 90px; /* Made the box slightly larger than the logo so the brackets have room */
+  position: relative; 
+  width: 90px; 
   height: 90px;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.2s ease;
-  cursor: pointer; /* Normal pointer hand cursor */
+  cursor: pointer; 
 }
 
-/* 🎯 THE TARGET BRACKETS: Draws the 4 corners as a hidden overlay */
+/* 🎯 THE TARGET BRACKETS */
 .skill-icon-wrapper::before {
   content: "";
   position: absolute;
@@ -80,38 +81,40 @@
   left: 0; 
   width: 100%; 
   height: 100%;
-  
-  /* Draws the 4 black corners precisely */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M2,25 V2 H25 M75,2 H98 V25 M98,75 V98 H75 M25,98 H2 V75' fill='none' stroke='%23000000' stroke-width='5'/%3E%3C/svg%3E");
   background-size: 100% 100%;
-  
-  /* Starts invisible and slightly shrunk for a "lock on" animation effect */
   opacity: 0;
   transform: scale(0.85); 
   transition: all 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-  pointer-events: none; /* Prevents the brackets from messing with your mouse */
+  pointer-events: none; 
+}
+
+.skill-icon {
+  width: 55px; 
+  height: 55px;
+  object-fit: contain;
+  
+  /* FIX: Grayscale -> Sepia -> Blue Shift. 
+     This keeps the white cutouts visible while tinting the main shapes blue! */
+  filter: grayscale(100%) sepia(100%) hue-rotate(185deg) saturate(400%) opacity(0.8);
+  
+  transition: transform 0.2s ease, filter 0.3s ease, opacity 0.3s ease;
 }
 
 /* On Hover: Pops the logo up slightly */
-.skill-icon-wrapper:hover {
+.skill-icon-wrapper:hover .skill-icon {
   transform: translateY(-5px) scale(1.05);
+  
+  /* Instantly restores the true original colors and full opacity! */
+  filter: grayscale(0%) sepia(0%) hue-rotate(0deg) saturate(100%); 
+  opacity: 1; 
 }
 
-/* On Hover: Fades in and snaps the target brackets into place! */
+/* On Hover: Snaps the target brackets into place */
 .skill-icon-wrapper:hover::before {
   opacity: 1;
   transform: scale(1);
 }
-
-.skill-icon {
-  width: 55px; /* Logo stays at 55px safely inside the 90px bracket box */
-  height: 55px;
-  object-fit: contain;
-  
-  /* CSS FILTER: Converts any colored SVG into your exact #007bff primary blue! */
-  filter: brightness(0) saturate(100%) invert(39%) sepia(80%) saturate(1513%) hue-rotate(195deg) brightness(98%) contrast(105%);
-}
-
 /* ==================================================== */
 /* 📱 RESPONSIVE DESIGN 📱                              */
 /* ==================================================== */
@@ -122,18 +125,17 @@
   }
   
   .skills-grid {
-    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-    gap: 3rem 2rem;
+    gap: 2.5rem 1.5rem; /* Tighter gap for phones so they fit nicely */
   }
   
   /* Scale the boxes down proportionately for phones */
   .skill-icon-wrapper {
-    width: 75px;
-    height: 75px;
+    width: 70px;
+    height: 70px;
   }
   
   .skill-icon {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
   }
 }
