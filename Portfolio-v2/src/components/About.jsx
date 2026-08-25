@@ -91,18 +91,64 @@ export default function About() {
         </div>
       </div>
 
-      {/* RIGHT COLUMN: Text Copy */}
-      <div className="about-right">
-        <div className="about-copy">
-          <p className="section-lead">Hi, I'm a Developer Who Builds for Impact!</p>
-          <p>
-            I am a 3rd-year Computer Science student, a Java NC III Certified developer, and an aspiring software engineer. I am passionate about bridging the gap between raw data and operational efficiency, building systems that eliminate bottlenecks and solve real user problems.
-          </p>
-          <p>
-            Whether I am automating enterprise workflows or working on cross-functional teams, I am driven by the belief that great software is measured by its real-world impact.
-          </p>
+      {/* Right Side: Text Copy */}
+        <div className="about-right">
+          <div className="about-copy">
+            <p className="section-lead">Hi, I'm a Developer Who Builds for Impact!</p>
+            <p>
+              I am a <strong>4th-year Computer Science student</strong>, a <strong>Java NC III Certified</strong> developer, and an aspiring software engineer. I am passionate about bridging the gap between raw data and operational efficiency, building systems that eliminate bottlenecks and solve real user problems.
+            </p>
+            <p>
+              Whether I am automating enterprise workflows or working on cross-functional teams, I am driven by the belief that great software is measured by its real-world impact.
+            </p>
+            
+            {/* NEW: Updated "Beyond coding" Section */}
+            {/* NEW: Updated "Beyond coding" Section */}
+            <div className="beyond-the-code">
+              <h3 className="beyond-heading">Beyond coding</h3>
+              <div className="hobby-tags">
+                
+                <span className="hobby-tag">
+                  {/* Sword icon for Larping */}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="M16 16l4 4"/><path d="M19 21l2-2"/></svg>
+                  Larping
+                </span>
+                
+                <span className="hobby-tag">
+                  {/* Mountain icon for Hiking */}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+                  Hiking
+                </span>
+                
+                <span className="hobby-tag">
+                  {/* Sun icon for Afternoon Walks */}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                  Afternoon Walks
+                </span>
+                
+                <span className="hobby-tag">
+                  {/* Dumbbell icon for Gym */}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m14.4 14.4 5.6 5.6"/><path d="m20 14.4-5.6 5.6"/><path d="m4 9.6 5.6 5.6"/><path d="m9.6 4-5.6 5.6"/><path d="m11 15-4-4"/><path d="m15 11-4-4"/><path d="m18 8-4-4"/><path d="m8 18-4-4"/></svg>
+                  Gym
+                </span>
+                
+                <span className="hobby-tag">
+                  {/* Smartphone icon for Doomscrolling */}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                  Doomscrolling
+                </span>
+                
+                <span className="hobby-tag">
+                  {/* Rocket icon for Sci-Fi Movies */}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2l.5-.5c1.17 1.17 3.07 1.17 4.24 0 .97-.97 1.22-2.38.74-3.52l.22-.22c1.14.48 2.55.23 3.52-.74 1.17-1.17 1.17-3.07 0-4.24l-.5-.5c1.5-1.26 5-2 5-2s-.74 3.74-2 5l-.5.5c-1.17 1.17-3.07 1.17-4.24 0-.97.97-1.22 2.38-.74 3.52l-.22.22c-1.14-.48-2.55-.23-3.52.74-1.17 1.17-1.17 3.07 0 4.24l.5.5z"/></svg>
+                  Sci-Fi Movies
+                </span>
+
+              </div>
+            </div>
+
+          </div>
         </div>
-      </div>
 
     </section>
   );
