@@ -14,6 +14,14 @@ export default function Contact() {
     // Updates custom CSS properties in real-time
     sectionRef.current.style.setProperty('--mouse-x', `${x}px`);
     sectionRef.current.style.setProperty('--mouse-y', `${y}px`);
+    sectionRef.current.style.setProperty('--glow-opacity', '1'); // Fade IN
+  };
+
+  // Fades the glow OUT when the mouse leaves the footer
+  const handleMouseLeave = () => {
+    if (sectionRef.current) {
+      sectionRef.current.style.setProperty('--glow-opacity', '0'); // Fade OUT
+    }
   };
 
   return (
@@ -22,9 +30,10 @@ export default function Contact() {
       className="contact-section"
       ref={sectionRef}
       onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave} /* FIX: Attached the leave event here! */
     >
       
-      {/* --- NEW: The Interactive Glowing Background --- */}
+      {/* --- The Interactive Glowing Background --- */}
       <div className="contact-background"></div>
 
       <div className="contact-container">

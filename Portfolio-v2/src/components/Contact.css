@@ -62,6 +62,10 @@
     black 0%,
     transparent 100%
   );
+  
+  /* NEW: Links to the React variable for a smooth fade out! */
+  opacity: var(--glow-opacity, 0); 
+  transition: opacity 0.4s ease; 
 }
 
 /* CRITICAL: Pulls the actual content above the background effects! */

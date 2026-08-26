@@ -105,8 +105,10 @@
 }
 
 /* --- Left Column: Content --- */
+/* --- Left Column: Content --- */
 .project-content {
-  padding: 2.5rem 3rem; /* CHANGED: Drastically reduced the massive padding */
+  /* CHANGED: Increased left padding to 4.5rem so text clears the left arrow! */
+  padding: 3rem 2.5rem 3rem 4.5rem; 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -183,21 +185,44 @@
 
 /* --- Right Column: Visual/Image --- */
 .project-visual {
-  background: linear-gradient(135deg, #e0edff 0%, #f4f4f5 100%);
+  /* Swapped to a solid, quiet color so the hover gradient pops more */
+  background: #f4f4f5; 
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem; /* CHANGED: Less padding around the image container */
+  padding: 3rem 4.5rem 3rem 3rem; 
   border-left: 1px solid #eaeaea;
   position: relative;
+  
+  /* CRITICAL: Keeps the sliding image and background from spilling out of the card */
+  overflow: hidden; 
+  z-index: 1;
 }
 
+/* 🎨 THE VIBRANT HOVER BACKGROUND 🎨 */
+.vibrant-bg {
+  position: absolute;
+  inset: 0;
+  
+  /* Simulates a vibrant, fluid abstract background using your brand colors! */
+  background: 
+    radial-gradient(circle at 10% 10%, rgba(0, 123, 255, 0.4) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(135, 123, 26, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(0, 210, 255, 0.3) 0%, transparent 60%),
+    linear-gradient(135deg, #e0edff 0%, #f4f4f5 100%);
+    
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 0; /* Sits behind the image */
+}
+
+/* 🖼️ THE IMAGE PLACEHOLDER */
 .image-placeholder {
   width: 100%;
   height: 100%;
-  min-height: 280px; /* CHANGED: Shaved 120px off the minimum height! */
-  background-color: rgba(255, 255, 255, 0.5);
-  border: 2px dashed #0056b3;
+  min-height: 280px; 
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 2px #0056b3;
   border-radius: 0.75rem;
   display: flex;
   align-items: center;
@@ -205,6 +230,33 @@
   color: #0056b3;
   font-weight: 600;
   font-size: 1rem;
+  
+  /* Pulls the image above the vibrant background */
+  position: relative;
+  z-index: 2;
+  
+  /* Buttery smooth transition for the movement */
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+              box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+              background-color 0.5s ease;
+  will-change: transform;
+}
+
+/* ==================================================== */
+/* ✨ THE HOVER INTERACTIONS ✨                         */
+/* ==================================================== */
+
+/* 1. Fades in the bright fluid background */
+.project-feature-card:hover .vibrant-bg {
+  opacity: 1;
+}
+
+/* 2. Dips the image down and adds a deep shadow for a 3D float effect */
+.project-feature-card:hover .image-placeholder {
+  transform: translateY(15px) scale(1.02);
+  background-color: #ffffff; /* Turns solid white on hover */
+  border-style: solid; /* Swaps dashed border to solid for a cleaner look */
+  box-shadow: 0 30px 60px rgba(0, 86, 179, 0.15); /* Adds a soft blue drop shadow */
 }
 
 /* ==================================================== */
@@ -215,7 +267,8 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 100px; 
+  /* CHANGED: Shrunk from 100px to 70px to stop massive overlap */
+  width: 70px; 
   border: none;
   display: flex;
   align-items: center;
@@ -318,10 +371,16 @@
     order: -1; 
     border-left: none;
     border-bottom: 1px solid #eaeaea;
-    padding: 2rem;
+    /* CHANGED: Added equal padding on sides to clear arrows on mobile */
+    padding: 2.5rem 3.5rem; 
   }
   
   .image-placeholder { min-height: 250px; }
-  .project-content { padding: 2.5rem 2rem; }
+  
+  .project-content { 
+    /* CHANGED: Added equal padding on sides to clear arrows on mobile */
+    padding: 2.5rem 3.5rem; 
+  }
+  
   .project-title { font-size: 2rem; }
 }

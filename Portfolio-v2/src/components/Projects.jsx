@@ -132,7 +132,12 @@ export default function Projects() {
                     </div>
                   </div>
 
+                  {/* Right Side: Visual Presentation */}
                   <div className="project-visual">
+                    
+                    {/* NEW: The hidden vibrant background layer! */}
+                    <div className="vibrant-bg"></div>
+
                     <div className="image-placeholder">
                       <span>{project.title} Interface</span>
                     </div>

@@ -52,10 +52,84 @@ const experiences = [
 export default function Experience() {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
-  const itemRefs = useRef([]); // Creates an array to hold all our timeline items
+  const itemRefs = useRef([]); 
+  
+  // NEW: Refs for the HTML5 Canvas Particle Engine
+  const canvasRef = useRef(null);
+  const particlesRef = useRef([]);
+  const isScrollingRef = useRef(false);
+  const scrollTimeout = useRef(null);
 
   useEffect(() => {
-    // 1. Butter-Smooth Real-Time Scroll Line
+    // --- 1. CANVAS SETUP & PHYSICS ENGINE ---
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    
+    // Syncs the canvas size perfectly with the timeline container
+    const setCanvasSize = () => {
+      if (containerRef.current) {
+        canvas.width = 100; // 100px wide area for sparks to scatter
+        canvas.height = containerRef.current.offsetHeight - 10;
+      }
+    };
+    setCanvasSize();
+    window.addEventListener('resize', setCanvasSize);
+
+    // Particle Spawner Function
+    const createParticles = (amount, x, y, isIdle) => {
+      for (let i = 0; i < amount; i++) {
+        particlesRef.current.push({
+          x: x,
+          y: y,
+          // If active, shoot sparks wider and higher. If idle, gentle spread.
+          vx: (Math.random() - 0.5) * (isIdle ? 0.8 : 2.5), 
+          vy: (Math.random() - 1) * (isIdle ? 0.8 : 3.5) - 0.5,
+          size: Math.random() * 2 + 0.5,
+          // Mixes your theme Blue and Gold!
+          color: Math.random() > 0.5 ? '0, 123, 255' : '135, 123, 26',
+          life: 1,
+          decay: Math.random() * 0.02 + 0.015
+        });
+      }
+    };
+
+    // The 60FPS Animation Loop
+    let animationId;
+    const renderSparks = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Idle State: Emits a slow, gentle spark occasionally when not scrolling
+      if (!isScrollingRef.current && Math.random() < 0.1) {
+        const currentProgress = parseFloat(trackRef.current.style.height || 0);
+        const tipY = (currentProgress / 100) * canvas.height;
+        if (tipY > 5 && tipY < canvas.height - 5) {
+          createParticles(1, canvas.width / 2, tipY, true);
+        }
+      }
+
+      // Physics Math for every single particle
+      for (let i = particlesRef.current.length - 1; i >= 0; i--) {
+        const p = particlesRef.current[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.08; // Gravity pulls them down
+        p.life -= p.decay; // They slowly burn out
+
+        if (p.life <= 0) {
+          particlesRef.current.splice(i, 1); // Delete dead sparks
+        } else {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.color}, ${p.life})`;
+          ctx.fill();
+        }
+      }
+      animationId = requestAnimationFrame(renderSparks);
+    };
+    renderSparks();
+
+
+    // --- 2. SCROLL TRACKER ---
     const handleScroll = () => {
       if (!containerRef.current || !trackRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
@@ -66,34 +140,49 @@ export default function Experience() {
       let progress = (Math.abs(Math.min(startScroll, 0)) / totalHeight) * 100;
       progress = Math.max(0, Math.min(100, progress));
 
-      // Direct DOM manipulation bypasses React lag entirely!
       trackRef.current.style.height = `${progress}%`;
+
+      // ACTIVE FIREWORKS: Spawn multiple aggressive sparks matching the scroll height!
+      const tipY = (progress / 100) * canvas.height;
+      if (progress > 2 && progress < 98) {
+        createParticles(2, canvas.width / 2, tipY, false);
+      }
+
+      // Toggle scrolling state
+      isScrollingRef.current = true;
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      scrollTimeout.current = setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 100); 
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
-    // 2. Intersection Observer for the Blur Effect
+    // --- 3. BLUR REVEAL OBSERVER ---
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('in-view'); // Unblurs when scrolling to it
+          entry.target.classList.add('in-view'); 
         } else {
-          entry.target.classList.remove('in-view'); // Re-blurs when scrolling past it
+          entry.target.classList.remove('in-view'); 
         }
       });
     }, { 
       threshold: 0.25, 
-      rootMargin: "-10% 0px -10% 0px" // Triggers when the item is comfortably in the screen
+      rootMargin: "-10% 0px -10% 0px" 
     });
 
-    // Attach the observer to every experience item
     itemRefs.current.forEach(item => {
       if (item) observer.observe(item);
     });
 
+    // Cleanup Engine
     return () => {
+      window.removeEventListener('resize', setCanvasSize);
       window.removeEventListener('scroll', handleScroll);
+      cancelAnimationFrame(animationId);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
       observer.disconnect();
     };
   }, []);
@@ -112,19 +201,29 @@ export default function Experience() {
       <div className="timeline-container" ref={containerRef}>
         
         <div className="timeline-track-empty"></div>
-        
-        {/* Added the trackRef here to control it directly via JavaScript */}
         <div className="timeline-track-filled" ref={trackRef}></div>
+        
+        {/* NEW: The Transparent Overlay Canvas that renders the sparks! */}
+        <canvas className="sparkle-canvas" ref={canvasRef}></canvas>
 
         {experiences.map((item, index) => (
           <div 
             className="timeline-item" 
             key={index} 
-            ref={el => itemRefs.current[index] = el} /* Assigns the item to our observer array */
+            ref={el => itemRefs.current[index] = el} 
           >
             <div className="timeline-dot"></div>
             
-            <div className="experience-content">
+            <div 
+              className="experience-content"
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+                e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+              }}
+            >
               <h3 className="experience-role">{item.role}</h3>
               <div className="experience-company-wrapper">
                 <span className="experience-company">{item.company}</span>

@@ -81,6 +81,19 @@
 }
 
 /* ==================================================== */
+/* 🌌 HTML5 CANVAS PARTICLE SYSTEM 🌌                   */
+/* ==================================================== */
+.sparkle-canvas {
+  position: absolute;
+  top: 10px; /* Matches the top of the timeline track */
+  left: -48px; /* Perfectly centers the 100px canvas over the 3px line */
+  width: 100px;
+  height: calc(100% - 10px);
+  z-index: 4; 
+  pointer-events: none; /* Critical: Lets you click things beneath it! */
+}
+
+/* ==================================================== */
 /* 🌫️ BLUR REVEAL ANIMATIONS 🌫️                         */
 /* ==================================================== */
 
@@ -158,45 +171,48 @@
 /* 📝 EXPERIENCE CONTENT 📝                             */
 /* ==================================================== */
 
-/* --- THE 4-CORNER TARGET-LOCK HOVER EFFECT --- */
 .experience-content {
   position: relative;
   background-color: #ffffff;
   padding: 2rem;
   border-radius: 1.25rem;
-  border: 1px solid #eaeaea; /* Light default border */
+  border: 1px solid #eaeaea; /* Default subtle border */
   transition: all 0.3s ease;
 }
 
-/* Creates the corner bracket overlay */
+/* --- THE DYNAMIC SPOTLIGHT BORDER EFFECT --- */
 .experience-content::before {
   content: "";
   position: absolute;
-  inset: -4px; /* Pulls the corners slightly outside the card */
-  border-radius: 1.35rem;
-  background: linear-gradient(135deg, #004d96 0%, #877b1a 50%, #7a6e15 100%);
+  inset: -1px; /* Sits perfectly over the default border */
+  border-radius: inherit;
   
-  /* The Magic Mask: Cuts out the center of the box so ONLY the 4 outer corners are visible! */
+  /* The Flashlight! Uses the coordinates passed from React */
+  background: radial-gradient(
+    250px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), 
+    #007bff 0%, /* Your signature theme blue! */
+    transparent 100%
+  );
+  
+  /* The Magic Mask: Hollows out the center of the box so ONLY the border is visible! */
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   
-  padding: 3px; /* Thickness of the corner lines */
+  padding: 2px; /* This controls the thickness of the shining border */
   opacity: 0;
-  transform: scale(0.98);
-  transition: all 0.25s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  transition: opacity 0.3s ease;
   pointer-events: none;
 }
 
-/* When hovering the individual job card, the gradient corners snap into view! */
+/* When hovering anywhere on the card, fade the flashlight in! */
 .experience-content:hover::before {
   opacity: 1;
-  transform: scale(1);
 }
 
-/* Role Title */
+/* Rest of your typography styles remain unchanged! */
 .experience-role {
   font-size: 1.75rem;
   font-weight: 700;
@@ -205,7 +221,6 @@
   letter-spacing: -0.5px;
 }
 
-/* Company Name with Gradient Text */
 .experience-company-wrapper {
   display: flex;
   align-items: center;
