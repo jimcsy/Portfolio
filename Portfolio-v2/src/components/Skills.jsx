@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Skills.css';
 
-// Sourced official SVGs so they load instantly and have perfect original brand colors
 const techStack = [
   { name: 'Java', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' },
   { name: 'Python', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
@@ -17,7 +16,6 @@ const techStack = [
   { name: 'Figma', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg' },
   { name: 'Laravel', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg' },
   { name: 'React', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
-  { name: 'Google App Script', url: 'https://cdn.worldvectorlogo.com/logos/google-apps-script.svg' },
   { name: 'Git', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' },
   { name: 'GitHub', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg' },
   { name: 'MySQL', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg' },
@@ -27,8 +25,29 @@ const techStack = [
 ];
 
 export default function Skills() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    // This observer adds the class when scrolling in, and removes it when scrolling out
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-skills');
+        } else {
+          entry.target.classList.remove('animate-skills'); // Resets it so it can replay next time!
+        }
+      });
+    }, { threshold: 0.2 });
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="skills" className="portfolio-section skills-section">
+    <section id="skills" className="portfolio-section skills-section" ref={sectionRef}>
       
       <div className="skills-heading">
         <div className="skills-subtitle-wrapper">
@@ -40,8 +59,13 @@ export default function Skills() {
 
       <div className="skills-grid-container">
         <div className="skills-grid">
-          {techStack.map((tech) => (
-            <div className="skill-icon-wrapper" key={tech.name} title={tech.name}>
+          {techStack.map((tech, index) => (
+            <div 
+              className="skill-icon-wrapper" 
+              key={tech.name} 
+              title={tech.name}
+              style={{ animationDelay: `${(index * 13 % 10) * 0.12}s` }}
+            >
               <img src={tech.url} alt={tech.name} className="skill-icon" draggable="false" />
             </div>
           ))}

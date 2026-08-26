@@ -71,6 +71,14 @@
   justify-content: center;
   align-items: center;
   cursor: pointer; 
+  
+  /* Hidden by default before the section scrolls into view */
+  opacity: 0; 
+}
+
+/* ONLY plays the flicker animation when the section is actively in view */
+.skills-section.animate-skills .skill-icon-wrapper {
+  animation: cyberFlicker 0.6s ease-in forwards;
 }
 
 /* 🎯 THE TARGET BRACKETS */
@@ -93,27 +101,34 @@
   width: 55px; 
   height: 55px;
   object-fit: contain;
-  
-  /* FIX: Grayscale -> Sepia -> Blue Shift. 
-     This keeps the white cutouts visible while tinting the main shapes blue! */
-  filter: grayscale(100%) sepia(100%) hue-rotate(185deg) saturate(400%) opacity(0.8);
-  
   transition: transform 0.2s ease, filter 0.3s ease, opacity 0.3s ease;
 }
 
-/* On Hover: Pops the logo up slightly */
 .skill-icon-wrapper:hover .skill-icon {
   transform: translateY(-5px) scale(1.05);
-  
-  /* Instantly restores the true original colors and full opacity! */
-  filter: grayscale(0%) sepia(0%) hue-rotate(0deg) saturate(100%); 
+  filter: grayscale(0%) sepia(0%) hue-rotate(0deg) saturate(100%) brightness(1); 
   opacity: 1; 
 }
 
-/* On Hover: Snaps the target brackets into place */
 .skill-icon-wrapper:hover::before {
   opacity: 1;
   transform: scale(1);
+}
+
+/* ==================================================== */
+/* ⚡ RANDOM CYBER FLICKER ANIMATION ⚡                 */
+/* ==================================================== */
+
+@keyframes cyberFlicker {
+  0% { opacity: 0; }
+  10% { opacity: 1; filter: brightness(2); }
+  12% { opacity: 0; }
+  30% { opacity: 0; }
+  32% { opacity: 1; filter: brightness(2); }
+  35% { opacity: 0; }
+  50% { opacity: 1; }
+  55% { opacity: 0.3; }
+  100% { opacity: 1; filter: brightness(1); }
 }
 /* ==================================================== */
 /* 📱 RESPONSIVE DESIGN 📱                              */

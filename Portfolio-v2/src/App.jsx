@@ -7,9 +7,19 @@ import Skills from "./components/Skills";
 import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
+import Opener from "./components/Opener";
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const openerTimeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 1600);
+
+    return () => clearTimeout(openerTimeout);
+  }, []);
 
   // NEW: Global mouse tracker for the background spotlight
   useEffect(() => {
@@ -22,6 +32,10 @@ export default function App() {
     window.addEventListener('pointermove', handleGlobalMove);
     return () => window.removeEventListener('pointermove', handleGlobalMove);
   }, []);
+
+  if (isLoading) {
+    return <Opener />;
+  }
 
   return (
     <div className={darkMode ? "dark app-container" : "app-container"}>

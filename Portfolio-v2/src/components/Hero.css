@@ -545,7 +545,9 @@
 .exit-hero .hero-image-wrapper {
   /* Shoots off the RIGHT edge of the screen */
   transform: translateX(150vw) rotateY(180deg) scale(1) !important;
-  transition: transform 0.6s cubic-bezier(0.5, -0.1, 0.1, 1) !important; 
+  
+  /* CHANGED: Sped up from 0.6s to 0.45s for a punchier, faster exit! */
+  transition: transform 0.45s cubic-bezier(0.5, -0.1, 0.1, 1) !important; 
 }
 
 /* --- Animations --- */

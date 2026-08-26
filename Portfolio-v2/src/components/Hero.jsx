@@ -3,15 +3,15 @@ import { TypeAnimation } from 'react-type-animation';
 import './Hero.css';
 import heroImage from '../assets/hero.png'; 
 import logo from '../assets/logo-black.png'; 
-import profile1x1 from '../assets/ID.jpg'; // Ensure this matches your file!
+import profile1x1 from '../assets/ID.jpg'; 
 
 export default function Hero() {
   const wrapperRef = useRef(null);
   
   const isScrolledRef = useRef(false);
-  const isAnimatingRef = useRef(false); // NEW: Tracks animation state safely across renders
-  const morphTimeoutRef = useRef(null); // NEW: Holds the 1st timer
-  const exitTimeoutRef = useRef(null);  // NEW: Holds the 2nd timer
+  const isAnimatingRef = useRef(false); 
+  const morphTimeoutRef = useRef(null); 
+  const exitTimeoutRef = useRef(null);  
   
   const [isScrolled, setIsScrolled] = useState(false);
   const [isExiting, setIsExiting] = useState(false); 
@@ -22,7 +22,6 @@ export default function Hero() {
     // 1. Safe Reset: Clears everything if the user scrolls back to the very top
     const handleScrollReset = () => {
       if (window.scrollY <= 10 && isScrolledRef.current) {
-        // KILL the timers so they don't glitch the animation!
         clearTimeout(morphTimeoutRef.current);
         clearTimeout(exitTimeoutRef.current);
         
@@ -35,7 +34,6 @@ export default function Hero() {
     };
     window.addEventListener('scroll', handleScrollReset);
 
-    // Skip lock if page is refreshed while already scrolled down
     if (window.scrollY > 10) {
       setIsScrolled(true);
       isScrolledRef.current = true;
@@ -44,7 +42,7 @@ export default function Hero() {
 
     document.body.style.overflow = 'hidden';
 
-    // 2. The Trigger Logic
+    // 2. The Trigger Logic (TIMINGS TIGHTENED!)
     const triggerAnimation = () => {
       if (isAnimatingRef.current || isScrolledRef.current) return;
       isAnimatingRef.current = true;
@@ -52,27 +50,29 @@ export default function Hero() {
       setIsScrolled(true);
       isScrolledRef.current = true;
 
+      // TRIGGER 1: The Exit (Shoots it off the screen)
+      // The flip takes 800ms. We trigger the exit at 850ms so it feels continuous!
       morphTimeoutRef.current = setTimeout(() => {
         setIsExiting(true);
-      }, 1600);
+      }, 850); 
 
+      // TRIGGER 2: The Scroll Unlock
+      // The exit takes 450ms. 850 + 450 = 1300ms. We unlock at 1350ms!
       exitTimeoutRef.current = setTimeout(() => {
         document.body.style.overflow = '';
         document.getElementById('about')?.scrollIntoView({
           behavior: 'smooth'
         });
         isAnimatingRef.current = false; 
-      }, 2200);
+      }, 1350); 
     };
 
     // 3. Hardware Lock (Desktop)
     const handleWheel = (e) => {
-      // If at the top and scrolling down, hijack it!
       if (window.scrollY <= 10 && !isScrolledRef.current && e.deltaY > 0) {
-        e.preventDefault(); // Physically stops the browser from forcing a scroll
+        e.preventDefault(); 
         triggerAnimation();
       } 
-      // If the animation is currently playing, block ALL scroll attempts
       else if (isAnimatingRef.current) {
         e.preventDefault(); 
       }
@@ -85,7 +85,7 @@ export default function Hero() {
     };
     const handleTouchMove = (e) => {
       if (isAnimatingRef.current) {
-        e.preventDefault(); // Block swiping while animating
+        e.preventDefault(); 
         return;
       }
       if (window.scrollY <= 10 && !isScrolledRef.current && (touchStartY - e.touches[0].clientY > 30)) {
@@ -94,12 +94,10 @@ export default function Hero() {
       }
     };
 
-    // Attach listeners with { passive: false } so preventDefault() actually works
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('touchstart', handleTouchStart, { passive: false });
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
 
-    // Cleanup on unmount
     return () => {
       window.removeEventListener('scroll', handleScrollReset);
       window.removeEventListener('wheel', handleWheel);
@@ -143,7 +141,7 @@ export default function Hero() {
   };
 
   return (
-    <section className={`hero-container ${isScrolled ? 'scrolled-hero' : ''} ${isExiting ? 'exit-hero' : ''}`}>
+    <section id="home"className={`hero-container ${isScrolled ? 'scrolled-hero' : ''} ${isExiting ? 'exit-hero' : ''}`}>
       
       <div className="hero-content">
         <div className="hero-status">
@@ -188,7 +186,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Right Column: Image & 3D Card */}
       <div 
         className="hero-image-wrapper"
         ref={wrapperRef}
@@ -196,7 +193,6 @@ export default function Hero() {
         onPointerLeave={handleMouseLeave}
       >
         
-        {/* NEW: The glitch-proof dedicated shadow layer! It tracks the exact same 3D movement. */}
         <div className="card-shadow" style={{ transform: transformStyle }}></div>
         
         <div className="tupperware-card" style={{ transform: transformStyle }}>

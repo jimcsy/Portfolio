@@ -55,12 +55,18 @@
   color: var(--text, #000000);
   font-size: 0.95rem;
   font-weight: 500;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease; /* Changed to 'all' so the font-weight animates smoothly too! */
   white-space: nowrap;
 }
 
 .nav-links li a:hover {
   color: var(--blue, #007bff); 
+}
+
+/* NEW: The Active State! */
+.nav-links li a.active {
+  color: var(--blue, #007bff);
+  font-weight: 700; /* Makes it slightly bolder */
 }
 
 
