@@ -7,17 +7,15 @@
   z-index: 9999;
   display: grid;
   place-items: center;
-  
-  /* CRITICAL: No background color here anymore! 
-     The tiles handle the background now. */
+  /* Start with the loading screen being clickable/blocking */
   pointer-events: all;
 }
 
-/* Hard-hides the container after the domino effect finishes */
+/* We deleted the visibility/opacity timers completely! */
 .opener.fade-out {
-  visibility: hidden;
-  /* CHANGED: Increased from 1.2s to 2.5s to give the slower dominoes time to finish falling! */
-  transition: visibility 0s linear 2.5s; 
+  /* This just makes the invisible container "click-through" so you 
+     can interact with your Hero section while the tiles are falling! */
+  pointer-events: none; 
 }
 
 /* ==================================================== */

@@ -11,20 +11,10 @@ import Opener from "./components/Opener";
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const openerTimeout = setTimeout(() => {
-      setIsLoading(false);
-    }, 1600);
-
-    return () => clearTimeout(openerTimeout);
-  }, []);
-
-  // NEW: Global mouse tracker for the background spotlight
+  
+  // Global mouse tracker for the background spotlight
   useEffect(() => {
     const handleGlobalMove = (e) => {
-      // Injects the exact mouse coordinates into the absolute root of the website
       document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
       document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
     };
@@ -33,25 +23,29 @@ export default function App() {
     return () => window.removeEventListener('pointermove', handleGlobalMove);
   }, []);
 
-  if (isLoading) {
-    return <Opener />;
-  }
-
   return (
-    <div className={darkMode ? "dark app-container" : "app-container"}>
-      
-      {/* NEW: The Global Background Layer */}
-      <div className="global-dot-grid"></div>
+    // We use a React Fragment (<>) to wrap multiple sibling elements
+    <>
+      {/* ✅ THE FIX: Opener is now OUTSIDE the app-container. 
+          This guarantees it completely takes over the entire viewport! */}
+      <Opener />
 
-      <Navbar toggleDarkMode={() => setDarkMode((prev) => !prev)} />
-      <div id="home">
-        <Hero />
+      {/* Your actual website stays wrapped safely in its own container */}
+      <div className={darkMode ? "dark app-container" : "app-container"}>
+        
+        {/* The Global Background Layer */}
+        <div className="global-dot-grid"></div>
+
+        <Navbar toggleDarkMode={() => setDarkMode((prev) => !prev)} />
+        <div id="home">
+          <Hero />
+        </div>
+        <About />
+        <Skills />
+        <Experience />
+        <Projects />
+        <Contact />
       </div>
-      <About />
-      <Skills />
-      <Experience />
-      <Projects />
-      <Contact />
-    </div>
+    </>
   );
 }
