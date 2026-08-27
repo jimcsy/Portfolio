@@ -32,8 +32,8 @@ export default function Opener() {
           const row = Math.floor(i / 10);
           const col = i % 10;
           
-          // Math magic: Delays the fade-out based on the tile's diagonal position!
-          const delay = (row + col) * 0.04; 
+          // CHANGED: Increased from 0.04 to 0.085 to slow down the cascading wave!
+          const delay = (row + col) * 0.085;
           
           return (
             <div 

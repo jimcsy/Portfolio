@@ -13,10 +13,11 @@
   pointer-events: all;
 }
 
-/* Hard-hides the container after the domino effect finishes (1.2s delay) */
+/* Hard-hides the container after the domino effect finishes */
 .opener.fade-out {
   visibility: hidden;
-  transition: visibility 0s linear 1.2s; 
+  /* CHANGED: Increased from 1.2s to 2.5s to give the slower dominoes time to finish falling! */
+  transition: visibility 0s linear 2.5s; 
 }
 
 /* ==================================================== */
@@ -32,16 +33,14 @@
 }
 
 .tile {
-  background-color: #060f1e; /* Your dark theme background */
+  background-color: #060f1e; 
   width: 100%;
   height: 100%;
-  
-  /* scale(1.02) overlaps the tiles slightly to prevent sub-pixel gaps on high-res screens */
   transform: scale(1.02); 
   
-  /* The physics of the domino fall */
-  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
-              transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  /* CHANGED: Increased the shrink time from 0.4s to 0.7s so they disappear much more softly */
+  transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* When the loader hits 100%, the tiles shrink and disappear in a sequence! */
