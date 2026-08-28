@@ -1,4 +1,6 @@
-/* --- Base Navbar Layout --- */
+/* ==================================================== */
+/* 🛸 BASE NAVBAR & ALIGNMENT 🛸                        */
+/* ==================================================== */
 .navbar {
   position: sticky !important;
   top: 0;
@@ -11,18 +13,49 @@
   transition: padding 0.3s ease, background-color 0.3s ease;
 }
 
-.navbar-logo, .navbar-right {
+/* --- Visibility Logic --- */
+.mobile-only {
+  display: none !important;
+}
+
+/* --- Flexbox Alignment for Left and Right --- */
+.navbar-logo {
   flex: 1;
   display: flex;
+  align-items: center;
 }
+
 .navbar-right {
+  flex: 1;
+  display: flex;
   justify-content: flex-end;
+  align-items: center; /* Vertically centers the items */
+  gap: 0.5rem; /* Breathing room between Moon and Hamburger */
 }
 
 .navbar-logo img {
   height: 50px;
   display: block;
   border-radius: 4px;
+}
+
+/* --- Theme Toggle (Moon Icon) --- */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  color: var(--text, #000000);
+  border-radius: 50%;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05); 
+  transform: scale(1.05);
 }
 
 /* --- Center Pill Container --- */
@@ -56,7 +89,7 @@
   color: var(--text, #000000);
   font-size: 0.95rem;
   font-weight: 500;
-  transition: all 0.2s ease; /* Changed to 'all' so the font-weight animates smoothly too! */
+  transition: all 0.2s ease; 
   white-space: nowrap;
 }
 
@@ -64,70 +97,62 @@
   color: var(--blue, #007bff); 
 }
 
-/* NEW: The Active State! */
 .nav-links li a.active {
   color: var(--blue, #007bff);
-  font-weight: 700; /* Makes it slightly bolder */
+  font-weight: 700; 
 }
 
 
 /* ==================================================== */
-/* 🌀 THE BLACK HOLE MORPH ANIMATIONS 🌀                */
+/* 🌀 THE BLACK HOLE MORPH ANIMATIONS (DESKTOP) 🌀      */
 /* ==================================================== */
 
-/* --- 1. LEFT SIDE: Main Logo Gets Sucked --- */
 .morph-logo {
   opacity: 1;
   transform: translateX(0) scale(1) rotate(0deg);
   transition: all 0.6s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
 }
 
-/* Scrolled: Main logo flies to the right and shrinks! */
 .navbar.scrolled .morph-logo {
   opacity: 0;
   transform: translateX(150px) scale(0.1) rotate(15deg); 
   pointer-events: none; 
 }
 
-/* The Hidden Logo inside the left of the Pill */
 .pill-logo-wrap {
   display: flex;
   align-items: center;
   max-width: 0; 
   opacity: 0;
-  transform: translateX(-30px) scale(0.5); /* Starts slightly left */
+  transform: translateX(-30px) scale(0.5); 
   filter: blur(4px); 
   overflow: hidden;
   transition: all 0.6s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
 }
 
-/* Scrolled: Pill Logo Expands & Slides In */
 .navbar.scrolled .pill-logo-wrap {
-  max-width: 120px; /* Safely opens enough space for logo + divider */
+  max-width: 120px; 
   opacity: 1;
   transform: translateX(0) scale(1);
   filter: blur(0);
 }
 
 .pill-logo-img {
-  height: 24px; /* Scaled down perfectly to match the 24px divider */
+  height: 24px; 
   border-radius: 2px;
   display: block;
 }
 
-
-/* --- 2. RIGHT SIDE: The Hidden Contact Text inside the Pill --- */
 .pill-contact {
   max-width: 0; 
   opacity: 0;
   margin-left: 0 !important; 
-  transform: translateX(30px) scale(0.5); /* Starts slightly right */
+  transform: translateX(30px) scale(0.5); 
   filter: blur(4px); 
   overflow: hidden;
   transition: all 0.6s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
 }
 
-/* Scrolled: Text Expands & Slides In */
 .navbar.scrolled .pill-contact {
   max-width: 80px; 
   opacity: 1;
@@ -136,7 +161,6 @@
   filter: blur(0);
 }
 
-/* --- 3. RIGHT SIDE: The Main Blue Button Gets Sucked --- */
 .contact-btn {
   background-color: var(--blue, #007bff); 
   color: #ffffff;
@@ -158,15 +182,12 @@
   transition: all 0.6s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
 }
 
-/* Scrolled: Button flies to the left and shrinks! */
 .navbar.scrolled .morph-btn {
   opacity: 0;
   transform: translateX(-150px) scale(0.1) rotate(-15deg); 
   pointer-events: none; 
 }
-/* ==================================================== */
 
-/* Vertical Line Divider */
 .divider {
   width: 1px;
   height: 24px;
@@ -174,23 +195,6 @@
   margin: 0 1rem;
 }
 
-/* Moon Icon Button */
-.theme-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem;
-  color: var(--text, #000000);
-  border-radius: 50%;
-  transition: background-color 0.2s ease;
-}
-
-.theme-toggle:hover {
-  background-color: var(--muted, #f4f4f5);
-}
 
 /* ==================================================== */
 /* 📱 CORPORATE DASHBOARD MOBILE MENU 📱                */
@@ -206,11 +210,22 @@
   z-index: 101; 
 }
 
-.hamburger svg {
+.hamburger-svg {
   width: 28px;
   height: 28px;
 }
 
+.hamburger-svg line {
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.hamburger-svg.active .line-top { transform: translateY(6px) rotate(45deg); }
+.hamburger-svg.active .line-mid { opacity: 0; transform: scaleX(0); }
+.hamburger-svg.active .line-bot { transform: translateY(-6px) rotate(-45deg); }
+
+/* --- MOBILE RESPONSIVE OVERRIDES --- */
 @media (max-width: 960px) {
   .navbar {
     padding: 0.75rem clamp(0.75rem, 4vw, 1.5rem);
@@ -221,12 +236,15 @@
     align-items: center;
     justify-content: flex-end;
   }
+  
   .navbar-right { flex: 0; }
 
-  /* Removed .pill-contact from here so it shows in the dropdown! */
+  /* 🛑 VISIBILITY SWAP: Hides Desktop Items, Shows Mobile Button */
+  .desktop-only { display: none !important; }
+  .mobile-only { display: flex !important; }
+
   .morph-btn,
-  .pill-logo-wrap,
-  .desktop-only {
+  .pill-logo-wrap {
     display: none !important; 
   }
 
@@ -236,14 +254,13 @@
     pointer-events: auto;
   }
 
-  /* --- The Dropdown Card --- */
   .navbar-center {
     position: absolute;
     top: calc(100% + 0.5rem);
     left: clamp(0.75rem, 4vw, 1.5rem);
     right: clamp(0.75rem, 4vw, 1.5rem);
     flex-direction: column;
-    padding: 1.5rem 1rem; /* Slightly tighter padding for a sleeker look */
+    padding: 1.5rem 1rem; 
     border-radius: 12px;
     background-color: var(--panel-bg, #ffffff);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -260,24 +277,20 @@
     transform: translateY(0);
   }
 
-  /* --- Staggered Nav Links Layout --- */
   .nav-links {
     flex-direction: column;
     width: 100%;
-    align-items: flex-start; /* Left-aligns for that dashboard feel */
+    align-items: flex-start;
   }
 
   .nav-links li {
     margin: 0 0 0.5rem 0 !important; 
     width: 100%;
-    
-    /* Prepares the links to slide in when the menu opens */
     opacity: 0;
     transform: translateX(-15px);
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
-  /* Mathematical delays to make them cascade in beautifully! */
   .navbar-center.mobile-active .nav-links li:nth-child(1) { transition-delay: 0.10s; }
   .navbar-center.mobile-active .nav-links li:nth-child(2) { transition-delay: 0.15s; }
   .navbar-center.mobile-active .nav-links li:nth-child(3) { transition-delay: 0.20s; }
@@ -285,13 +298,11 @@
   .navbar-center.mobile-active .nav-links li:nth-child(5) { transition-delay: 0.30s; }
   .navbar-center.mobile-active .nav-links li:nth-child(6) { transition-delay: 0.35s; }
 
-  /* Triggers the slide-in */
   .navbar-center.mobile-active .nav-links li {
     opacity: 1;
     transform: translateX(0);
   }
 
-  /* --- Corporate Hover / Active State --- */
   .nav-links li a {
     display: flex;
     align-items: center;
@@ -307,15 +318,13 @@
     transition: all 0.25s ease;
   }
 
-  /* The subtle tint and nudge */
   .nav-links li a:hover,
   .nav-links li a.active {
     background-color: rgba(0, 123, 255, 0.06); 
     color: var(--blue, #007bff);
-    padding-left: 1.75rem; /* Pushes the text right elegantly */
+    padding-left: 1.75rem; 
   }
 
-  /* The animated blue accent line */
   .nav-links li a::before {
     content: '';
     position: absolute;
@@ -333,24 +342,9 @@
   .nav-links li a.active::before {
     transform: translateY(-50%) scaleY(1);
   }
-
-  /* Clean horizontal dividers */
-  .divider {
-    width: 100%;
-    height: 1px;
-    margin: 1rem 0;
-    background-color: rgba(0, 0, 0, 0.08); /* Softer line */
-  }
-
-  .theme-toggle {
-    width: 100%;
-    padding: 0.85rem;
-    background-color: var(--muted, #f4f4f5);
-    border-radius: 8px;
-    font-weight: 600;
-  }
 }
 
+/* --- Tight Mobile Adjustments --- */
 @media (max-width: 420px) {
   .navbar-logo img {
     height: 42px;

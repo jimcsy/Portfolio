@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Projects.css';
 
+// Import your placeholder image here!
+import projectImg from '../assets/image.jpg'; 
+
 const projectsData = [
   {
     id: 'beehive',
@@ -34,9 +37,14 @@ const projectsData = [
 export default function Projects() {
   const sectionRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
+      if (window.innerWidth <= 960) return;
+
       if (!sectionRef.current) return;
       
       const section = sectionRef.current;
@@ -45,14 +53,10 @@ export default function Projects() {
       const scrollDistance = Math.max(0, -rect.top);
       const scrollableDistance = rect.height - window.innerHeight;
 
-      // Get progress between 0 and 1
       let progress = scrollDistance / scrollableDistance;
       progress = Math.max(0, Math.min(1, progress));
 
-      // NEW: This uses Math.round to force the carousel to "snap" to the nearest whole number!
-      // No more half-scrolled slides.
       const currentSlide = Math.round(progress * (projectsData.length - 1));
-      
       setActiveIndex(currentSlide);
     };
 
@@ -62,8 +66,12 @@ export default function Projects() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Syncs the arrow/dot clicks with the actual page scroll height
   const scrollToSlide = (index) => {
+    if (window.innerWidth <= 960) {
+      setActiveIndex(index);
+      return;
+    }
+
     if (!sectionRef.current) return;
     const section = sectionRef.current;
     const scrollableDistance = section.offsetHeight - window.innerHeight;
@@ -71,6 +79,28 @@ export default function Projects() {
     const targetY = section.offsetTop + (progress * scrollableDistance);
 
     window.scrollTo({ top: targetY, behavior: 'smooth' });
+  };
+
+  const handleTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const swipeThreshold = 50;
+
+    if (distance > swipeThreshold && activeIndex < projectsData.length - 1) {
+      scrollToSlide(activeIndex + 1);
+    }
+    if (distance < -swipeThreshold && activeIndex > 0) {
+      scrollToSlide(activeIndex - 1);
+    }
   };
 
   return (
@@ -93,9 +123,13 @@ export default function Projects() {
             </div>
           </div>
 
-          <div className="carousel-wrapper">
+          <div 
+            className="carousel-wrapper"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             
-            {/* NEW: We apply the transform using activeIndex so it strictly snaps by 100% */}
             <div 
               className="carousel-track" 
               style={{ transform: `translateX(-${activeIndex * 100}%)` }}
@@ -132,14 +166,11 @@ export default function Projects() {
                     </div>
                   </div>
 
-                  {/* Right Side: Visual Presentation */}
                   <div className="project-visual">
-                    
-                    {/* NEW: The hidden vibrant background layer! */}
                     <div className="vibrant-bg"></div>
-
                     <div className="image-placeholder">
-                      <span>{project.title} Interface</span>
+                      {/* ✅ THE FIX: The text span is gone, replaced with your image tag! */}
+                      <img src={projectImg} alt={`${project.title} Interface`} />
                     </div>
                   </div>
 

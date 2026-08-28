@@ -58,11 +58,6 @@
   font-weight: 600;
 }
 
-
-/* ==================================================== */
-/* 💳 THE ABOUT PAGE BUSINESS CARD 💳                   */
-/* ==================================================== */
-
 /* ==================================================== */
 /* 💳 THE ABOUT PAGE BUSINESS CARD 💳                   */
 /* ==================================================== */
@@ -86,64 +81,65 @@
   transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); 
 }
 
+/* ==================================================== */
+/* Card Internal Layout (Fluid & Responsive)            */
+/* ==================================================== */
+
 .about-biz-card {
   position: relative;
   width: 100%;
   max-width: 500px;
-  aspect-ratio: 5 / 3.2; /* Same proportion as Hero */
   
-  /* CHANGED: Replaced the old blue gradient with the cinematic blue and golden-olive one */
+  /* Restored the perfect shape, but lowered min-height so it shrinks fluidly */
+  aspect-ratio: 5 / 3.2; 
+  min-height: 220px; 
+  
   background: linear-gradient(135deg, #004d96 0%, #877b1a 35%, #003e7e 65%, #7a6e15 100%);
-  
   border-radius: 2.5rem; 
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+  
+  /* Lowered the minimum padding so the card can breathe when squeezed */
+  padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2.5rem) clamp(2.5rem, 5vw, 4.5rem);
   box-sizing: border-box; 
   overflow: hidden; 
-  box-shadow: 0 20px 40px rgba(0, 82, 204, 0.15); /* Clean drop shadow for the page */
+  box-shadow: 0 20px 40px rgba(0, 82, 204, 0.15); 
 }
 
-/* NEW: Cinematic noise overlay to perfectly match the Hero section */
+.about-biz-card .biz-details {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.35rem, 1.5vw, 0.85rem);
+  min-width: 0;
+  white-space: normal !important; 
+}
+
+/* Noise overlay */
 .about-biz-card::after {
   content: "";
   position: absolute;
-  top: 0; 
-  left: 0; 
-  width: 100%; 
-  height: 100%;
-  z-index: 99; 
-  
-  /* CRITICAL: Allows clicks to pass through to your social links */
-  pointer-events: none; 
-  
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 99; pointer-events: none; 
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.35; 
-  mix-blend-mode: overlay;
-  
-  /* Inherits the 2.5rem curve from the container */
-  border-radius: inherit;
+  opacity: 0.35; mix-blend-mode: overlay; border-radius: inherit;
 }
 
-/* Card Internal Layout (Reused from Hero but scoped to About) */
 .about-biz-card .biz-logo-top {
   position: absolute;
-  top: 1.5rem;
-  left: 2.5rem; 
-  width: 35px;
+  top: clamp(0.8rem, 2vw, 1.5rem);
+  left: clamp(1rem, 4vw, 2.5rem); 
+  width: clamp(20px, 3vw, 35px);
 }
 
 .about-biz-card .white-logo {
-  width: 100%;
-  display: block;
-  filter: brightness(0) invert(1); 
+  width: 100%; display: block; filter: brightness(0) invert(1); 
 }
 
 .about-biz-card .biz-card-layout {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
   width: 100%;
   color: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -152,8 +148,9 @@
 }
 
 .about-biz-card .biz-avatar {
-  width: 130px; 
-  height: 130px;
+  /* Allowed the avatar to shrink all the way down to 75px */
+  width: clamp(75px, 10vw, 130px); 
+  height: clamp(75px, 10vw, 130px);
   background-color: #d1d5db;
   flex-shrink: 0;
   border-radius: 8px;
@@ -161,69 +158,49 @@
 }
 
 .about-biz-card .avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.about-biz-card .biz-details {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  min-width: 0;
-  white-space: normal;
+  width: 100%; height: 100%; object-fit: cover; display: block;
 }
 
 .about-biz-card .detail-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
+  display: flex; flex-direction: column; gap: 0.1rem;
 }
 
 .about-biz-card .detail-group h3 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: clamp(0.9rem, 2vw, 1.25rem);
   font-weight: 500;
   letter-spacing: 0.5px;
+  line-height: 1.1;
+  overflow-wrap: break-word; 
 }
 
 .about-biz-card .biz-label {
-  font-size: 0.8rem;
+  font-size: clamp(0.65rem, 1.5vw, 0.8rem);
   color: #ffffff; 
   font-weight: 400;
 }
 
 .about-biz-card .biz-socials {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 0.15rem;
+  display: flex; align-items: center; gap: 0.75rem; margin-top: 0.15rem;
 }
 
 .about-biz-card .biz-socials a {
-  display: flex;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  display: flex; transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .about-biz-card .biz-socials a svg {
-  width: 24px;
-  height: 24px;
+  width: clamp(16px, 2.5vw, 24px);
+  height: clamp(16px, 2.5vw, 24px);
 }
 
 .about-biz-card .biz-socials a:hover {
-  transform: translateY(-2px);
-  opacity: 0.85;
+  transform: translateY(-2px); opacity: 0.85;
 }
 
 .about-biz-card .biz-stripe {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 0;
-  width: 100%;
-  height: 35px;
-  background-color: #ffffff;
-  z-index: 1;
+  position: absolute; left: 0; width: 100%; z-index: 1; background-color: #ffffff;
+  bottom: clamp(1rem, 2.5vw, 1.5rem);
+  height: clamp(15px, 3vw, 35px);
 }
 
 /* --- Beyond coding Tags --- */
@@ -280,7 +257,9 @@
 
 @media (max-width: 1024px) {
   .about-section {
-    gap: 3rem;
+    /* THE FIX: Keeps the layout as two columns! Just shrinks the gap to give the card room. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 1.5rem;
   }
 }
 
@@ -288,16 +267,12 @@
   .about-section { 
     grid-template-columns: 1fr; 
     gap: 3rem; 
-    padding: 5rem 2rem; 
+    padding: 4rem 1.5rem; 
   }
   
+  /* Hides the business card on mobile phones only */
   .about-card-wrapper {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .about-biz-card {
-    margin: 0 auto;
+    display: none !important;
   }
 }
 

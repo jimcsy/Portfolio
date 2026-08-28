@@ -82,13 +82,16 @@
 .carousel-wrapper {
   position: relative;
   width: 100%;
-  max-width: 980px; /* CHANGED: Pulls the edges in so it doesn't span the entire screen */
-  margin: 0 auto;   /* Centers the slimmed-down card */
+  max-width: 980px; 
+  margin: 0 auto;   
   overflow: hidden; 
-  border-radius: 1.25rem; /* Slightly tighter corners */
+  border-radius: 1.25rem; 
   background-color: #fafafa;
   border: 1px solid #eaeaea;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+  
+  /* NEW: Tells mobile browsers "allow vertical scrolling, but reserve horizontal dragging for my JavaScript!" */
+  touch-action: pan-y;
 }
 
 .carousel-track {
@@ -224,15 +227,12 @@
   width: 100%;
   height: 100%;
   min-height: 280px; 
-  background-color: rgba(255, 255, 255, 0.7);
-  border: 2px #0056b3;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08); /* Clean, subtle border instead of blue text style */
   border-radius: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #0056b3;
-  font-weight: 600;
-  font-size: 1rem;
+  
+  /* CRITICAL: Clips the image perfectly to the rounded corners! */
+  overflow: hidden; 
   
   /* Pulls the image above the vibrant background */
   position: relative;
@@ -240,9 +240,16 @@
   
   /* Buttery smooth transition for the movement */
   transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
-              box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-              background-color 0.5s ease;
+              box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: transform;
+}
+
+/* NEW: Styles the actual image inside the placeholder */
+.image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image fills the space without squishing */
+  display: block;
 }
 
 /* ==================================================== */
@@ -257,9 +264,7 @@
 /* 2. Dips the image down and adds a deep shadow for a 3D float effect */
 .project-feature-card:hover .image-placeholder {
   transform: translateY(15px) scale(1.02);
-  background-color: #ffffff; /* Turns solid white on hover */
-  border-style: solid; /* Swaps dashed border to solid for a cleaner look */
-  box-shadow: 0 30px 60px rgba(0, 86, 179, 0.15); /* Adds a soft blue drop shadow */
+  box-shadow: 0 30px 60px rgba(0, 86, 179, 0.15); /* Soft blue drop shadow */
 }
 
 /* ==================================================== */

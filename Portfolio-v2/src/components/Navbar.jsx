@@ -92,67 +92,20 @@ export default function Navbar({ toggleDarkMode }) {
         </div>
 
         <ul className="nav-links">
-          <li>
-            <a 
-              href="#home" 
-              onClick={(e) => handleNavClick(e, 'home')}
-              className={activeSection === 'home' ? 'active' : ''}
-            >
-              Home
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#about"
-              onClick={(e) => handleNavClick(e, 'about')}
-              className={activeSection === 'about' ? 'active' : ''}
-            >
-              About
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#skills"
-              onClick={(e) => handleNavClick(e, 'skills')}
-              className={activeSection === 'skills' ? 'active' : ''}
-            >
-              Skills
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#experience"
-              onClick={(e) => handleNavClick(e, 'experience')}
-              className={activeSection === 'experience' ? 'active' : ''}
-            >
-              Experience
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#projects"
-              onClick={(e) => handleNavClick(e, 'projects')}
-              className={activeSection === 'projects' ? 'active' : ''}
-            >
-              Projects
-            </a>
-          </li>
-          
-          {/* Now integrated directly into the mobile menu! */}
+          <li><a href="#home" onClick={(e) => handleNavClick(e, 'home')} className={activeSection === 'home' ? 'active' : ''}>Home</a></li>
+          <li><a href="#about" onClick={(e) => handleNavClick(e, 'about')} className={activeSection === 'about' ? 'active' : ''}>About</a></li>
+          <li><a href="#skills" onClick={(e) => handleNavClick(e, 'skills')} className={activeSection === 'skills' ? 'active' : ''}>Skills</a></li>
+          <li><a href="#experience" onClick={(e) => handleNavClick(e, 'experience')} className={activeSection === 'experience' ? 'active' : ''}>Experience</a></li>
+          <li><a href="#projects" onClick={(e) => handleNavClick(e, 'projects')} className={activeSection === 'projects' ? 'active' : ''}>Projects</a></li>
           <li className="mobile-contact-item">
-            <a 
-              href="#contact"
-              onClick={(e) => handleNavClick(e, 'contact')}
-              className={activeSection === 'contact' ? 'active' : ''}
-            >
-              Contact
-            </a>
+            <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className={activeSection === 'contact' ? 'active' : ''}>Contact</a>
           </li>
         </ul>
         
-        <div className="divider"></div>
+        <div className="divider desktop-only"></div>
         
-        <button type="button" className="theme-toggle" aria-label="Toggle Dark Mode" onClick={toggleDarkMode}>
+        {/* DESKTOP ONLY BUTTON: Sits inside the center pill */}
+        <button type="button" className="theme-toggle desktop-only" aria-label="Toggle Dark Mode" onClick={toggleDarkMode}>
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
@@ -161,13 +114,16 @@ export default function Navbar({ toggleDarkMode }) {
 
       {/* Right: Hamburger / Button */}
       <div className="navbar-right">
-        <a 
-          className="contact-btn morph-btn" 
-          href="#contact"
-          onClick={(e) => handleNavClick(e, 'contact')}
-        >
+        <a className="contact-btn morph-btn" href="#contact" onClick={(e) => handleNavClick(e, 'contact')}>
           Contact
         </a>
+
+        {/* MOBILE ONLY BUTTON: Sits perfectly beside the hamburger */}
+        <button type="button" className="theme-toggle mobile-only" aria-label="Toggle Dark Mode" onClick={toggleDarkMode}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
 
         <button 
           type="button"
@@ -177,19 +133,10 @@ export default function Navbar({ toggleDarkMode }) {
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-navigation"
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            {isMobileMenuOpen ? (
-              <>
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </>
-            ) : (
-              <>
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-              </>
-            )}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`hamburger-svg ${isMobileMenuOpen ? 'active' : ''}`}>
+            <line x1="3" y1="6" x2="21" y2="6" className="line-top"></line>
+            <line x1="3" y1="12" x2="21" y2="12" className="line-mid"></line>
+            <line x1="3" y1="18" x2="21" y2="18" className="line-bot"></line>
           </svg>
         </button>
       </div>

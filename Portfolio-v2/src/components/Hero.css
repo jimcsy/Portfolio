@@ -616,34 +616,51 @@
 @media (max-width: 768px) {
   .hero-container {
     flex-direction: column;
-    min-height: calc(100svh - 4rem);
-    padding: 3rem clamp(1rem, 6vw, 1.5rem) 4rem;
+    justify-content: center; 
+    min-height: calc(100svh - 8rem);
+    
+    /* CHANGED: Removed the heavy 3rem/4rem top and bottom padding 
+       so it centers mathematically perfectly in the viewport! */
+    padding: 1rem clamp(1rem, 6vw, 1.5rem);
     text-align: center;
   }
-  .tupperware-card {
-    transform: none !important; 
-    max-width: 320px; 
-    margin: 0 auto; 
-  }
-  .hero-status { justify-content: center; }
-  .resume-btn { margin: 1rem auto; }
-  .social-links { justify-content: center; }
-  .name { font-size: 4.5rem; }
 
+  /* 🛑 HIDES THE ENTIRE 3D CARD AND FALLING TOYS ON MOBILE */
   .hero-image-wrapper {
-    width: min(100%, 23rem);
+    display: none !important;
   }
 
-  .tupperware-card {
-    width: min(100%, 20rem);
+  /* 🛑 FIX FOR MOBILE SCROLL LAG & CENTERING */
+  .hero-content,
+  .scrolled-hero .hero-content {
+    animation: none !important;
+    transform: none !important;
+    filter: none !important; 
+    opacity: 1 !important;   
+    transition: none !important;
+    
+    /* NEW: Stops the container from stretching, allowing it to drop to the middle! */
+    flex: none; 
+    justify-content: center;
   }
 
-  .tech-toy {
-    width: clamp(3rem, 15vw, 5.25rem);
-    height: clamp(3rem, 15vw, 5.25rem);
-    padding: clamp(0.4rem, 2vw, 0.75rem);
+  .hero-status { 
+    justify-content: center; 
+  }
+  
+  .resume-btn { 
+    margin: 1.5rem auto 1rem; 
+  }
+  
+  .social-links { 
+    justify-content: center; 
+  }
+  
+  .name { 
+    font-size: 4.5rem; 
   }
 }
+
 
 @media (max-width: 420px) {
   .hero-container {
