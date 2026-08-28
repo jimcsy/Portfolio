@@ -5,7 +5,7 @@
   flex-direction: column;
   max-width: 1180px;
   margin: 0 auto;
-  padding: 8rem 2rem;
+  padding: clamp(5rem, 10vw, 8rem) clamp(1rem, 4vw, 2rem);
   scroll-margin-top: 2rem;
 }
 
@@ -53,7 +53,7 @@
   position: relative;
   width: 100%;
   max-width: 950px;
-  margin-left: clamp(2rem, 8vw, 6rem); 
+  margin-left: clamp(0rem, 8vw, 6rem); 
   padding-left: 2.5rem;
 }
 
@@ -174,7 +174,8 @@
 .experience-content {
   position: relative;
   background-color: #ffffff;
-  padding: 2rem;
+  min-width: 0;
+  padding: clamp(1.25rem, 4vw, 2rem);
   border-radius: 1.25rem;
   border: 1px solid #eaeaea; /* Default subtle border */
   transition: all 0.3s ease;
@@ -214,7 +215,8 @@
 
 /* Rest of your typography styles remain unchanged! */
 .experience-role {
-  font-size: 1.75rem;
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  overflow-wrap: anywhere;
   font-weight: 700;
   color: #111111;
   margin: 0 0 0.25rem 0;
@@ -342,5 +344,13 @@
   .experience-meta {
     gap: 0.75rem;
     flex-direction: column; 
+  }
+
+  .timeline-container {
+    padding-left: 1.5rem;
+  }
+
+  .timeline-dot {
+    left: calc(-1.5rem - 6.5px);
   }
 }

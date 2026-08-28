@@ -5,11 +5,10 @@ import logo from '../assets/logo-black.png';
 export default function Navbar({ toggleDarkMode }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // NEW: A lock to prevent the observer from flickering when you click a link!
   const isClickScrolling = useRef(false); 
 
-  // 1. Controls the Morphing Animation based on Scroll Height
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 400);
@@ -19,11 +18,20 @@ export default function Navbar({ toggleDarkMode }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 2. Intersection Observer to track which section is currently on screen
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        // CRITICAL: If the user just clicked a link, ignore the observer completely!
         if (isClickScrolling.current) return;
 
         entries.forEach((entry) => {
@@ -32,25 +40,21 @@ export default function Navbar({ toggleDarkMode }) {
           }
         });
       },
-      // Lowered threshold to 0.25 so taller sections trigger smoothly
       { threshold: 0.25 } 
     );
 
-    // Watch all elements with a <section> tag
     const sections = document.querySelectorAll('section');
     sections.forEach((section) => observer.observe(section));
 
     return () => observer.disconnect();
   }, []);
 
-  // 3. NEW: Master Click Handler for all links
   const handleNavClick = (e, sectionId) => {
     e.preventDefault();
     
-    // Instantly update the UI so it feels incredibly responsive
     setActiveSection(sectionId);
+    setIsMobileMenuOpen(false); // Closes menu automatically
     
-    // Lock the observer for 1 second while the page physically scrolls
     isClickScrolling.current = true;
     setTimeout(() => {
       isClickScrolling.current = false;
@@ -61,7 +65,6 @@ export default function Navbar({ toggleDarkMode }) {
     } else {
       const element = document.getElementById(sectionId);
       if (element) {
-        // Calculates the exact position and offsets by 80px to account for the navbar!
         const y = element.getBoundingClientRect().top + window.scrollY - 80;
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
@@ -74,23 +77,18 @@ export default function Navbar({ toggleDarkMode }) {
       {/* Left: Main Logo */}
       <div className="navbar-logo">
         <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>
-          <img 
-            src={logo} 
-            alt="Brand Logo" 
-            className="morph-logo" 
-          />
+          <img src={logo} alt="Brand Logo" className="morph-logo" />
         </a>
       </div>
 
-      {/* Center: Pill Navigation */}
-      <div className="navbar-center">
+      {/* Center: Dropdown Menu */}
+      <div className={`navbar-center ${isMobileMenuOpen ? 'mobile-active' : ''}`}>
         
-        {/* The hidden logo */}
         <div className="pill-logo-wrap">
           <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>
             <img src={logo} alt="Brand Logo" className="pill-logo-img" />
           </a>
-          <div className="divider"></div>
+          <div className="divider desktop-only"></div>
         </div>
 
         <ul className="nav-links">
@@ -140,7 +138,8 @@ export default function Navbar({ toggleDarkMode }) {
             </a>
           </li>
           
-          <li className="pill-contact">
+          {/* Now integrated directly into the mobile menu! */}
+          <li className="mobile-contact-item">
             <a 
               href="#contact"
               onClick={(e) => handleNavClick(e, 'contact')}
@@ -153,21 +152,14 @@ export default function Navbar({ toggleDarkMode }) {
         
         <div className="divider"></div>
         
-        <button className="theme-toggle" aria-label="Toggle Dark Mode" onClick={toggleDarkMode}>
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="18" 
-            height="18" 
-            viewBox="0 0 24 24" 
-            fill="currentColor" 
-            stroke="none"
-          >
+        <button type="button" className="theme-toggle" aria-label="Toggle Dark Mode" onClick={toggleDarkMode}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
         </button>
       </div>
 
-      {/* Right: Contact Button */}
+      {/* Right: Hamburger / Button */}
       <div className="navbar-right">
         <a 
           className="contact-btn morph-btn" 
@@ -176,6 +168,30 @@ export default function Navbar({ toggleDarkMode }) {
         >
           Contact
         </a>
+
+        <button 
+          type="button"
+          className="hamburger" 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle mobile menu"
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-navigation"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {isMobileMenuOpen ? (
+              <>
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </>
+            ) : (
+              <>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </>
+            )}
+          </svg>
+        </button>
       </div>
     </nav>
   );

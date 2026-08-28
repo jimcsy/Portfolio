@@ -12,12 +12,14 @@
   justify-content: space-between;
   max-width: 1500px;
   margin: 0 auto;
-  padding: 6rem 2rem;
-  gap: 4rem;
+  width: 100%;
+  padding: clamp(4rem, 9vw, 6rem) clamp(1rem, 4vw, 2rem);
+  gap: clamp(2rem, 6vw, 4rem);
 }
 
 /* --- Left Column: Content --- */
 .hero-content {
+  min-width: 0;
   flex: 2;
   display: flex;
   flex-direction: column;
@@ -61,7 +63,7 @@
 
 .greeting {
   font-family: "Impact", sans-serif;
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 4vw, 2.5rem);
   font-weight: 400;
   letter-spacing: 1px;
   margin: 0;
@@ -76,7 +78,8 @@
 
 .name {
   font-family: "Impact", sans-serif;
-  font-size: 7rem;
+  font-size: clamp(4rem, 9vw, 7rem);
+  overflow-wrap: anywhere;
   line-height: 0.9;
   letter-spacing: 1px;
   margin: 0;
@@ -84,7 +87,7 @@
 }
 
 .subtitle {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
   color: #000000;
   margin-top: 1rem;
   font-weight: 500;
@@ -141,7 +144,7 @@
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;
-  touch-action: none;
+  touch-action: manipulation;
   transform-style: preserve-3d;
   /* Home Reset Animation */
   animation: homeResetFade 0.8s cubic-bezier(0.25, 1, 0.5, 1);
@@ -266,7 +269,8 @@
 /* Enlarged Profile Image */
 .profile-pic {
   position: relative;
-  width: 115%; 
+  width: 100%; 
+  max-width: none;
   height: auto;
   object-fit: cover;
   z-index: 10; 
@@ -612,7 +616,8 @@
 @media (max-width: 768px) {
   .hero-container {
     flex-direction: column;
-    padding: 3rem 1.5rem;
+    min-height: calc(100svh - 4rem);
+    padding: 3rem clamp(1rem, 6vw, 1.5rem) 4rem;
     text-align: center;
   }
   .tupperware-card {
@@ -624,6 +629,41 @@
   .resume-btn { margin: 1rem auto; }
   .social-links { justify-content: center; }
   .name { font-size: 4.5rem; }
+
+  .hero-image-wrapper {
+    width: min(100%, 23rem);
+  }
+
+  .tupperware-card {
+    width: min(100%, 20rem);
+  }
+
+  .tech-toy {
+    width: clamp(3rem, 15vw, 5.25rem);
+    height: clamp(3rem, 15vw, 5.25rem);
+    padding: clamp(0.4rem, 2vw, 0.75rem);
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-container {
+    padding-top: 2.5rem;
+  }
+
+  .hero-status {
+    flex-wrap: wrap;
+    row-gap: 0.35rem;
+    font-size: 0.7rem;
+  }
+
+  .name {
+    font-size: clamp(3.25rem, 16vw, 4.5rem);
+  }
+
+  .social-links {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
 }
 
 @media (min-width: 768px) {

@@ -141,7 +141,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="home"className={`hero-container ${isScrolled ? 'scrolled-hero' : ''} ${isExiting ? 'exit-hero' : ''}`}>
+    <section id="home" className={`hero-container ${isScrolled ? 'scrolled-hero' : ''} ${isExiting ? 'exit-hero' : ''}`}>
       
       <div className="hero-content">
         <div className="hero-status">

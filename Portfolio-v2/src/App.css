@@ -22,8 +22,8 @@ body {
   background: var(--page-bg);
   color: var(--text);
   font-family: 'Inter', 'Segoe UI', sans-serif;
+  overflow-x: hidden; /* NEW: Prevents horizontal scrolling for the whole page */
 }
-
 button,
 a {
   font: inherit;
@@ -44,9 +44,11 @@ img {
 }
 
 .app-container {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 20px 28px 0;
+  padding: 20px clamp(1rem, 3vw, 28px) 0;
+  /* DELETED: overflow-x: clip; */
 }
 
 /* Lifts everything inside the app container EXCEPT the grid to the front */
@@ -60,6 +62,18 @@ img {
 .experience-section,
 .projects-section {
   min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding-top: 8px;
+  }
+
+  .about-section,
+  .skills-section,
+  .experience-section {
+    min-height: auto;
+  }
 }
 
 .dark {
@@ -154,7 +168,7 @@ img {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 120px;
+  height: clamp(80px, 12vw, 120px);
   background: linear-gradient(to bottom, var(--page-bg) 0%, var(--page-bg-transparent) 100%);
   z-index: 90; /* Sits right BELOW the Navbar (100) but ABOVE the content (10) */
   pointer-events: none; /* Crucial: Allows you to click links right through it! */

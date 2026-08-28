@@ -9,7 +9,7 @@
 .projects-scroll-section {
   position: relative;
   /* CHANGED: Shorter height means a small scroll triggers it faster! */
-  height: 250vh; 
+  height: max(250vh, 1600px); 
 }
 
 /* This wrapper literally "sticks" to the screen while you scroll through the 300vh section */
@@ -26,7 +26,7 @@
   width: 100%;
   max-width: 1180px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
 }
 
 /* ==================================================== */
@@ -102,13 +102,15 @@
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   min-width: 100%;
+  min-height: 30rem;
 }
 
 /* --- Left Column: Content --- */
 /* --- Left Column: Content --- */
 .project-content {
   /* CHANGED: Increased left padding to 4.5rem so text clears the left arrow! */
-  padding: 3rem 2.5rem 3rem 4.5rem; 
+  min-width: 0;
+  padding: clamp(2rem, 5vw, 3rem) clamp(2rem, 5vw, 4.5rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -124,7 +126,7 @@
 }
 
 .project-title {
-  font-size: 2rem; /* CHANGED: Scaled down from 2.5rem */
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 600;
   color: #111111;
   margin: 0 0 1rem 0;
@@ -136,6 +138,7 @@
   font-size: 0.95rem; /* CHANGED: Slightly smaller text for a tighter block */
   color: #666666;
   line-height: 1.6;
+  overflow-wrap: anywhere;
   margin: 0 0 1.5rem 0;
 }
 
@@ -190,7 +193,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3rem 4.5rem 3rem 3rem; 
+  padding: clamp(2rem, 5vw, 3rem) clamp(2rem, 5vw, 4.5rem) clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 3rem); 
   border-left: 1px solid #eaeaea;
   position: relative;
   
@@ -383,4 +386,45 @@
   }
   
   .project-title { font-size: 2rem; }
+
+  .project-feature-card {
+    min-height: 0;
+  }
+
+  .project-actions {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .projects-scroll-section {
+    padding: 3.5rem 0;
+  }
+
+  .projects-header {
+    gap: 1rem;
+  }
+
+  .projects-heading-left h2 {
+    font-size: clamp(3rem, 15vw, 4.5rem);
+  }
+
+  .project-visual,
+  .project-content {
+    padding: 1.5rem;
+  }
+
+  .project-visual {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .image-placeholder {
+    min-height: 12rem;
+  }
+
+  .project-actions > a {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
 }
