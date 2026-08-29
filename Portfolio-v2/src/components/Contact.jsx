@@ -1,26 +1,73 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import './Contact.css';
 
 export default function Contact() {
   const sectionRef = useRef(null);
 
-  // Tracks the mouse position and sends coordinates to the CSS
+  // --- 1. FORM STATE MANAGEMENT ---
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [status, setStatus] = useState('Ready to send.');
+
+  // Updates state when user types
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // Handles the actual API submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('Sending message...');
+
+    try {
+      // 👉 👉 👉 PUT YOUR FORMSPREE LINK HERE 👈 👈 👈
+      // Replace the string below with your actual endpoint URL (e.g., 'https://formspree.io/f/xbjvqzzq')
+      const response = await fetch('https://formspree.io/f/xgaevzag', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setStatus('Message sent successfully!');
+        setFormData({ name: '', email: '', subject: '', message: '' }); // Clears the form
+        
+        // Resets the terminal status after 3 seconds
+        setTimeout(() => setStatus('Ready to send.'), 3000);
+      } else {
+        setStatus('Failed to send. Try again.');
+      }
+    } catch (error) {
+      setStatus('Network error. Check connection.');
+    }
+  };
+
+
+  // --- 2. GLOW EFFECT MOUSE TRACKING ---
   const handleMouseMove = (e) => {
     if (!sectionRef.current) return;
     const rect = sectionRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
-    // Updates custom CSS properties in real-time
     sectionRef.current.style.setProperty('--mouse-x', `${x}px`);
     sectionRef.current.style.setProperty('--mouse-y', `${y}px`);
-    sectionRef.current.style.setProperty('--glow-opacity', '1'); // Fade IN
+    sectionRef.current.style.setProperty('--glow-opacity', '1'); 
   };
 
-  // Fades the glow OUT when the mouse leaves the footer
   const handleMouseLeave = () => {
     if (sectionRef.current) {
-      sectionRef.current.style.setProperty('--glow-opacity', '0'); // Fade OUT
+      sectionRef.current.style.setProperty('--glow-opacity', '0'); 
     }
   };
 
@@ -30,10 +77,9 @@ export default function Contact() {
       className="contact-section"
       ref={sectionRef}
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave} /* FIX: Attached the leave event here! */
+      onMouseLeave={handleMouseLeave} 
     >
       
-      {/* --- The Interactive Glowing Background --- */}
       <div className="contact-background"></div>
 
       <div className="contact-container">
@@ -41,7 +87,6 @@ export default function Contact() {
           
           {/* --- LEFT SIDE: Compact Info & Links --- */}
           <div className="contact-info-column">
-            
             <div className="contact-heading-compact">
               <span className="section-number">05</span>
               <h2>GET IN TOUCH</h2>
@@ -50,7 +95,6 @@ export default function Contact() {
             <p className="contact-lead">
               I am open to new opportunities, freelance projects, and collaborative builds. Drop a message and I will reply within 24 hours.
             </p>
-
           </div>
 
           {/* --- RIGHT SIDE: Compact Terminal Form --- */}
@@ -63,28 +107,74 @@ export default function Contact() {
               <div className="spacer"></div>
             </div>
 
-            <form className="terminal-body" onSubmit={(e) => e.preventDefault()}>
+            {/* ✅ CONNECTED THE ONSUBMIT EVENT HERE */}
+            <form className="terminal-body" onSubmit={handleSubmit}>
               
               <div className="input-row">
                 <div className="input-group">
-                  <input type="text" placeholder="Name" required />
+                  <input 
+                    type="text" 
+                    name="name" 
+                    value={formData.name} 
+                    onChange={handleChange} 
+                    placeholder="Name" 
+                    required 
+                  />
                 </div>
                 <div className="input-group">
-                  <input type="email" placeholder="Email" required />
+                  <input 
+                    type="email" 
+                    name="email" 
+                    value={formData.email} 
+                    onChange={handleChange} 
+                    placeholder="Email" 
+                    required 
+                  />
                 </div>
               </div>
 
               <div className="input-group">
-                <input type="text" placeholder="Subject (e.g. Freelance Project)" required />
+                <input 
+                  type="text" 
+                  name="subject" 
+                  value={formData.subject} 
+                  onChange={handleChange} 
+                  placeholder="Subject (e.g. Freelance Project)" 
+                  required 
+                />
               </div>
 
               <div className="input-group">
-                <textarea placeholder="Message..." rows="2" required></textarea>
+                <textarea 
+                  name="message" 
+                  value={formData.message} 
+                  onChange={handleChange} 
+                  placeholder="Message..." 
+                  rows="2" 
+                  required
+                ></textarea>
               </div>
 
               <div className="form-footer">
-                <span className="status-text">Ready to send.</span>
-                <button type="submit" className="submit-btn">SEND</button>
+                {/* The Terminal text above the button */}
+                <span className="status-text">{status}</span>
+                
+                <button 
+                  type="submit" 
+                  className="submit-btn"
+                  /* Disables the button while it is sending OR after it successfully sent */
+                  disabled={
+                    status === 'Sending message...' || 
+                    status === 'Message sent successfully!'
+                  }
+                >
+                  {/* Dynamic Button Text Logic */}
+                  {status === 'Sending message...' 
+                    ? 'SENDING...' 
+                    : status === 'Message sent successfully!' 
+                      ? 'SENT ✔' 
+                      : 'SEND'}
+                </button>
               </div>
 
             </form>
@@ -117,7 +207,7 @@ export default function Contact() {
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
               </svg>
             </a>
-                      </div>
+          </div>
           <p className="footer-built">Built with React & ♥</p>
         </div>
       </footer>
