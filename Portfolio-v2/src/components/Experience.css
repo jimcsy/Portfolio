@@ -38,7 +38,7 @@
 .experience-section .section-number,
 .experience-section .section-kicker {
   margin: 0 !important; 
-  color: #007bff; 
+  color: var(--brand-blue);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -64,7 +64,7 @@
   bottom: 0;
   left: 0;
   width: 3px;
-  background-color: #e4e4e7; /* Subtle light gray */
+  background-color: var(--panel-border);
   border-radius: 3px;
   z-index: 0;
 }
@@ -115,7 +115,7 @@
 
 /* TARGET LOCK: The dot ring turns blue and the core pops in! */
 .timeline-item.in-view .timeline-dot {
-  border-color: #004d96; 
+  border-color: var(--brand-blue-strong);
 }
 
 .timeline-item.in-view .timeline-dot::after {
@@ -140,13 +140,13 @@
 .timeline-dot {
   position: absolute;
   left: calc(-2.5rem - 6.5px); 
-  top: 2.5rem; /* CHANGED: Pushes the dot down to align with the header */
+  top: 2.5rem;
   width: 16px;
   height: 16px;
-  background-color: #ffffff;
-  border: 3px solid #e4e4e7; 
+  background-color: var(--surface-bg);
+  border: 3px solid var(--panel-border);
   border-radius: 50%;
-  box-shadow: 0 0 0 6px #ffffff; 
+  box-shadow: 0 0 0 6px var(--surface-bg);
   z-index: 3; 
   
   display: flex;
@@ -173,11 +173,11 @@
 
 .experience-content {
   position: relative;
-  background-color: #ffffff;
+  background-color: var(--surface-bg);
   min-width: 0;
   padding: clamp(1.25rem, 4vw, 2rem);
   border-radius: 1.25rem;
-  border: 1px solid #eaeaea; /* Default subtle border */
+  border: 1px solid var(--panel-border);
   transition: all 0.3s ease;
 }
 
@@ -218,7 +218,7 @@
   font-size: clamp(1.35rem, 3vw, 1.75rem);
   overflow-wrap: anywhere;
   font-weight: 700;
-  color: #111111;
+  color: var(--text);
   margin: 0 0 0.25rem 0;
   letter-spacing: -0.5px;
 }
@@ -233,7 +233,7 @@
 .experience-company {
   font-size: 1.15rem;
   font-weight: 600;
-  background: linear-gradient(135deg, #007bff 0%, #7a6e15 100%);
+  background: linear-gradient(135deg, var(--brand-blue) 0%, #7a6e15 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -241,7 +241,7 @@
 .external-link-icon {
   width: 16px;
   height: 16px;
-  color: #007bff;
+  color: var(--brand-blue);
 }
 
 /* Meta Bar (Location & Date) */
@@ -250,7 +250,7 @@
   flex-wrap: wrap;
   gap: 1.5rem;
   margin-bottom: 1.25rem;
-  color: #666666;
+  color: var(--text-muted);
   font-size: 0.95rem;
   font-weight: 500;
 }
@@ -264,7 +264,7 @@
 .meta-item svg {
   width: 16px;
   height: 16px;
-  color: #888888;
+  color: var(--text-muted);
 }
 
 /* Bullet Points */
@@ -281,14 +281,14 @@
   margin-bottom: 0.75rem;
   font-size: 1.05rem;
   line-height: 1.6;
-  color: #333333;
+  color: var(--text-soft);
 }
 
 .bullet-arrow {
   flex-shrink: 0;
   width: 18px;
   height: 18px;
-  color: #007bff; 
+  color: var(--brand-blue);
   margin-top: 4px;
 }
 
@@ -297,7 +297,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  border-top: 1px solid #eaeaea;
+  border-top: 1px solid var(--panel-border);
   padding-top: 1.25rem;
 }
 
@@ -305,8 +305,8 @@
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  background-color: rgba(0, 123, 255, 0.08); 
-  color: #0062cc; 
+  background-color: var(--brand-blue-soft);
+  color: var(--brand-blue-strong);
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
   font-size: 0.85rem;

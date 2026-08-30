@@ -10,8 +10,22 @@ import Contact from "./components/Contact";
 import Opener from "./components/Opener";
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
-  
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') return 'light';
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+      return savedTheme;
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
   // Global mouse tracker for the background spotlight
   useEffect(() => {
     const handleGlobalMove = (e) => {
@@ -23,20 +37,18 @@ export default function App() {
     return () => window.removeEventListener('pointermove', handleGlobalMove);
   }, []);
 
+  const toggleDarkMode = () => {
+    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+  };
+
   return (
-    // We use a React Fragment (<>) to wrap multiple sibling elements
     <>
-      {/* ✅ THE FIX: Opener is now OUTSIDE the app-container. 
-          This guarantees it completely takes over the entire viewport! */}
       <Opener />
 
-      {/* Your actual website stays wrapped safely in its own container */}
-      <div className={darkMode ? "dark app-container" : "app-container"}>
-        
-        {/* The Global Background Layer */}
+      <div className={theme === 'dark' ? 'dark app-container' : 'app-container'}>
         <div className="global-dot-grid"></div>
 
-        <Navbar toggleDarkMode={() => setDarkMode((prev) => !prev)} />
+        <Navbar toggleDarkMode={toggleDarkMode} />
         <div id="home">
           <Hero />
         </div>

@@ -27,7 +27,7 @@
 
 .section-number,
 .section-kicker {
-  color: var(--blue, #007bff);
+  color: var(--brand-blue);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -44,7 +44,7 @@
 }
 
 .about-copy p {
-  color: var(--text, #333333);
+  color: var(--text-soft);
   font-size: clamp(1rem, 1.5vw, 1.1rem);
   line-height: 1.8;
   margin-bottom: 1.25rem;
@@ -52,7 +52,7 @@
 
 .about-copy .section-lead {
   margin: 0 0 1.5rem;
-  color: #000000;
+  color: var(--text);
   font-size: clamp(1.5rem, 2.5vw, 2.2rem);
   line-height: 1.25;
   font-weight: 600;
@@ -104,7 +104,7 @@
   padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2.5rem) clamp(2.5rem, 5vw, 4.5rem);
   box-sizing: border-box; 
   overflow: hidden; 
-  box-shadow: 0 20px 40px rgba(0, 82, 204, 0.15); 
+  box-shadow: 0 20px 40px var(--shadow-blue);
 }
 
 .about-biz-card .biz-details {
@@ -211,7 +211,7 @@
 
 .beyond-heading {
   font-size: 1.1rem;
-  color: #111111;
+  color: var(--text);
   font-weight: 700; 
   margin-bottom: 1rem;
 }
@@ -229,8 +229,8 @@
   gap: 0.4rem;
   width: fit-content;   /* CHANGED: Forces the background to hug the text/icon tightly */
   
-  background-color: #eef5ff; 
-  color: #0056b3; 
+  background-color: var(--brand-blue-soft);
+  color: var(--brand-blue-strong);
   padding: 0.5rem 1.25rem;
   border-radius: 999px;
   font-size: 0.95rem;
@@ -247,7 +247,7 @@
 }
 
 .hobby-tag:hover {
-  background-color: #e0edff; 
+  background-color: var(--brand-blue-soft);
   transform: translateY(-2px);
 }
 

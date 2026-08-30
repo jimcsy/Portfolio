@@ -1,12 +1,23 @@
 :root {
-  --page-bg: #ffffff;
-  --page-bg-transparent: rgba(255, 255, 255, 0); /* NEW: For smooth fading */
+  --page-bg: #f3f3f3;
+  --page-bg-transparent: rgba(255, 255, 255, 0);
   --panel-bg: #ffffff;
   --line: rgba(17, 17, 17, 0.82);
   --text: #101010;
   --muted: #585858;
   --blue: #1e9af1;
   --blue-soft: #bfe3ff;
+}
+
+html[data-theme='dark'] {
+  --page-bg: #0a0a0a;
+  --page-bg-transparent: rgba(10, 10, 10, 0);
+  --panel-bg: #15181d;
+  --line: rgba(255, 255, 255, 0.82);
+  --text: #f5f7fa;
+  --muted: #a7b0bb;
+  --blue: #3ca3ff;
+  --blue-soft: #142c45;
 }
 
 * {
@@ -22,7 +33,7 @@ body {
   background: var(--page-bg);
   color: var(--text);
   font-family: 'Inter', 'Segoe UI', sans-serif;
-  overflow-x: hidden; /* NEW: Prevents horizontal scrolling for the whole page */
+  overflow-x: hidden;
 }
 button,
 a {

@@ -13,12 +13,10 @@
   transition: padding 0.3s ease, background-color 0.3s ease;
 }
 
-/* --- Visibility Logic --- */
 .mobile-only {
   display: none !important;
 }
 
-/* --- Flexbox Alignment for Left and Right --- */
 .navbar-logo {
   flex: 1;
   display: flex;
@@ -29,8 +27,8 @@
   flex: 1;
   display: flex;
   justify-content: flex-end;
-  align-items: center; /* Vertically centers the items */
-  gap: 0.5rem; /* Breathing room between Moon and Hamburger */
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .navbar-logo img {
@@ -39,7 +37,6 @@
   border-radius: 4px;
 }
 
-/* --- Theme Toggle (Moon Icon) --- */
 .theme-toggle {
   background: none;
   border: none;
@@ -48,30 +45,28 @@
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
-  color: var(--text, #000000);
+  color: var(--text);
   border-radius: 50%;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .theme-toggle:hover {
-  background-color: rgba(0, 0, 0, 0.05); 
+  background-color: var(--shadow-soft);
   transform: scale(1.05);
 }
 
-/* --- Center Pill Container --- */
 .navbar-center {
   min-width: 0;
   display: flex;
   align-items: center;
-  border: 1px solid var(--line, #71717a); 
+  border: 1px solid var(--panel-border);
   border-radius: 9999px; 
   padding: 0.35rem 0.75rem;
-  background-color: var(--panel-bg, #ffffff); 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+  background-color: var(--panel-bg);
+  box-shadow: 0 4px 10px var(--shadow-soft);
   transition: all 0.4s ease;
 }
 
-/* --- Navigation Links --- */
 .nav-links {
   display: flex;
   list-style: none;
@@ -86,7 +81,7 @@
 
 .nav-links li a {
   text-decoration: none;
-  color: var(--text, #000000);
+  color: var(--text);
   font-size: 0.95rem;
   font-weight: 500;
   transition: all 0.2s ease; 
@@ -94,18 +89,13 @@
 }
 
 .nav-links li a:hover {
-  color: var(--blue, #007bff); 
+  color: var(--brand-blue);
 }
 
 .nav-links li a.active {
-  color: var(--blue, #007bff);
+  color: var(--brand-blue);
   font-weight: 700; 
 }
-
-
-/* ==================================================== */
-/* 🌀 THE BLACK HOLE MORPH ANIMATIONS (DESKTOP) 🌀      */
-/* ==================================================== */
 
 .morph-logo {
   opacity: 1;
@@ -162,7 +152,7 @@
 }
 
 .contact-btn {
-  background-color: var(--blue, #007bff); 
+  background-color: var(--brand-blue);
   color: #ffffff;
   border: none;
   border-radius: 6px; 
@@ -174,7 +164,7 @@
   transition: background-color 0.2s ease;
 }
 
-.contact-btn:hover { background-color: #0062cc; }
+.contact-btn:hover { background-color: var(--brand-blue-strong); }
 
 .morph-btn {
   opacity: 1;
@@ -191,20 +181,15 @@
 .divider {
   width: 1px;
   height: 24px;
-  background-color: var(--line, #71717a);
+  background-color: var(--line);
   margin: 0 1rem;
 }
-
-
-/* ==================================================== */
-/* 📱 CORPORATE DASHBOARD MOBILE MENU 📱                */
-/* ==================================================== */
 
 .hamburger {
   display: none;
   background: none;
   border: none;
-  color: var(--text, #000000);
+  color: var(--text);
   cursor: pointer;
   padding: 0.5rem;
   z-index: 101; 
@@ -225,7 +210,6 @@
 .hamburger-svg.active .line-mid { opacity: 0; transform: scaleX(0); }
 .hamburger-svg.active .line-bot { transform: translateY(-6px) rotate(-45deg); }
 
-/* --- MOBILE RESPONSIVE OVERRIDES --- */
 @media (max-width: 960px) {
   .navbar {
     padding: 0.75rem clamp(0.75rem, 4vw, 1.5rem);
@@ -239,7 +223,6 @@
   
   .navbar-right { flex: 0; }
 
-  /* 🛑 VISIBILITY SWAP: Hides Desktop Items, Shows Mobile Button */
   .desktop-only { display: none !important; }
   .mobile-only { display: flex !important; }
 
@@ -262,8 +245,8 @@
     flex-direction: column;
     padding: 1.5rem 1rem; 
     border-radius: 12px;
-    background-color: var(--panel-bg, #ffffff);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
+    background-color: var(--panel-bg);
+    box-shadow: 0 15px 35px var(--shadow-soft), 0 5px 15px var(--shadow-soft);
     
     opacity: 0;
     visibility: hidden;
@@ -310,7 +293,7 @@
     padding: 0.85rem 1.25rem;
     font-size: 1.05rem;
     font-weight: 500;
-    color: var(--text, #333333);
+    color: var(--text-soft);
     background-color: transparent;
     border-radius: 8px;
     position: relative;
@@ -320,8 +303,8 @@
 
   .nav-links li a:hover,
   .nav-links li a.active {
-    background-color: rgba(0, 123, 255, 0.06); 
-    color: var(--blue, #007bff);
+    background-color: var(--brand-blue-soft);
+    color: var(--brand-blue);
     padding-left: 1.75rem; 
   }
 
@@ -333,7 +316,7 @@
     transform: translateY(-50%) scaleY(0);
     width: 4px;
     height: 50%;
-    background-color: var(--blue, #007bff);
+    background-color: var(--brand-blue);
     border-radius: 0 4px 4px 0;
     transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
   }
@@ -344,7 +327,6 @@
   }
 }
 
-/* --- Tight Mobile Adjustments --- */
 @media (max-width: 420px) {
   .navbar-logo img {
     height: 42px;

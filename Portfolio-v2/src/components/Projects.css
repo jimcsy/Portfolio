@@ -50,7 +50,7 @@
 .section-number,
 .section-kicker {
   margin: 0 !important; 
-  color: #007bff; 
+  color: var(--brand-blue);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -64,12 +64,12 @@
   font-weight: 400;
   line-height: 0.95;
   text-transform: uppercase;
-  color: #111111;
+  color: var(--text);
 }
 
 .projects-heading-right p {
   font-size: 1.15rem;
-  color: #333333;
+  color: var(--text-soft);
   line-height: 1.6;
   margin: 0;
   padding-bottom: 0.5rem;
@@ -86,9 +86,9 @@
   margin: 0 auto;   
   overflow: hidden; 
   border-radius: 1.25rem; 
-  background-color: #fafafa;
-  border: 1px solid #eaeaea;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+  background-color: var(--project-card-surface);
+  border: 1px solid var(--project-panel-border);
+  box-shadow: 0 15px 35px var(--shadow-soft);
   
   /* NEW: Tells mobile browsers "allow vertical scrolling, but reserve horizontal dragging for my JavaScript!" */
   touch-action: pan-y;
@@ -122,7 +122,7 @@
 .project-tagline {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #555555;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 0.75rem;
@@ -131,7 +131,7 @@
 .project-title {
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 600;
-  color: #111111;
+  color: var(--text);
   margin: 0 0 1rem 0;
   line-height: 1.1;
   letter-spacing: -0.5px;
@@ -139,7 +139,7 @@
 
 .project-description {
   font-size: 0.95rem; /* CHANGED: Slightly smaller text for a tighter block */
-  color: #666666;
+  color: var(--text-muted);
   line-height: 1.6;
   overflow-wrap: anywhere;
   margin: 0 0 1.5rem 0;
@@ -154,8 +154,8 @@
 }
 
 .tech-pill {
-  background-color: #eef5ff; 
-  color: #0056b3; 
+  background-color: var(--project-chip-bg);
+  color: var(--project-chip-text);
   padding: 0.4rem 1rem;
   border-radius: 999px;
   font-size: 0.8rem;
@@ -183,24 +183,21 @@
   cursor: pointer;
 }
 
-.btn-primary { background-color: #111111; color: #ffffff; border: 1px solid #111111; }
-.btn-primary:hover { background-color: #333333; }
-.btn-secondary { background-color: transparent; color: #111111; border: 1px solid #d4d4d8; }
-.btn-secondary:hover { background-color: #f4f4f5; border-color: #111111; }
+.btn-primary { background-color: var(--text); color: var(--page-bg); border: 1px solid var(--text); }
+.btn-primary:hover { background-color: var(--text-soft); }
+.btn-secondary { background-color: transparent; color: var(--text); border: 1px solid var(--panel-border); }
+.btn-secondary:hover { background-color: var(--project-bg-soft); border-color: var(--text); }
 .btn-primary svg, .btn-secondary svg { width: 16px; height: 16px; }
 
 /* --- Right Column: Visual/Image --- */
 .project-visual {
-  /* Swapped to a solid, quiet color so the hover gradient pops more */
-  background: #f4f4f5; 
+  background: var(--project-bg-soft);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: clamp(2rem, 5vw, 3rem) clamp(2rem, 5vw, 4.5rem) clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 3rem); 
-  border-left: 1px solid #eaeaea;
+  border-left: 1px solid var(--project-panel-border);
   position: relative;
-  
-  /* CRITICAL: Keeps the sliding image and background from spilling out of the card */
   overflow: hidden; 
   z-index: 1;
 }
@@ -209,17 +206,14 @@
 .vibrant-bg {
   position: absolute;
   inset: 0;
-  
-  /* Simulates a vibrant, fluid abstract background using your brand colors! */
   background: 
-    radial-gradient(circle at 10% 10%, rgba(0, 123, 255, 0.4) 0%, transparent 40%),
-    radial-gradient(circle at 90% 90%, rgba(135, 123, 26, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(0, 210, 255, 0.3) 0%, transparent 60%),
-    linear-gradient(135deg, #e0edff 0%, #f4f4f5 100%);
-    
+    radial-gradient(circle at 10% 10%, var(--project-glow-1) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, var(--project-glow-2) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, var(--project-glow-3) 0%, transparent 60%),
+    linear-gradient(135deg, var(--brand-blue-soft) 0%, var(--project-bg-soft) 100%);
   opacity: 0;
   transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-  z-index: 0; /* Sits behind the image */
+  z-index: 0;
 }
 
 /* 🖼️ THE IMAGE PLACEHOLDER */
@@ -227,18 +221,12 @@
   width: 100%;
   height: 100%;
   min-height: 280px; 
-  background-color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08); /* Clean, subtle border instead of blue text style */
+  background-color: var(--surface-bg);
+  border: 1px solid var(--panel-border);
   border-radius: 0.75rem;
-  
-  /* CRITICAL: Clips the image perfectly to the rounded corners! */
   overflow: hidden; 
-  
-  /* Pulls the image above the vibrant background */
   position: relative;
   z-index: 2;
-  
-  /* Buttery smooth transition for the movement */
   transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
               box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: transform;
@@ -264,7 +252,7 @@
 /* 2. Dips the image down and adds a deep shadow for a 3D float effect */
 .project-feature-card:hover .image-placeholder {
   transform: translateY(15px) scale(1.02);
-  box-shadow: 0 30px 60px rgba(0, 86, 179, 0.15); /* Soft blue drop shadow */
+  box-shadow: 0 30px 60px var(--shadow-blue);
 }
 
 /* ==================================================== */
@@ -290,7 +278,7 @@
 .carousel-arrow svg {
   width: 32px;
   height: 32px;
-  color: #0056b3; 
+  color: var(--brand-blue-strong);
   opacity: 0.6;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -298,7 +286,7 @@
 /* FIXED: Shadow drastically lightened! */
 .arrow-right {
   right: 0;
-  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.05));
+  background: linear-gradient(to right, transparent, var(--soft-shadow));
 }
 
 .arrow-right:hover svg {
@@ -309,7 +297,7 @@
 /* FIXED: Shadow drastically lightened! */
 .arrow-left {
   left: 0;
-  background: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.05));
+  background: linear-gradient(to left, transparent, var(--soft-shadow));
 }
 
 .arrow-left:hover svg {
@@ -337,19 +325,19 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d4d4d8; 
+  background-color: var(--project-panel-border);
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .dot.active {
-  background-color: #0056b3; 
+  background-color: var(--brand-blue-strong);
   transform: scale(1.2);
 }
 
 .dot:hover:not(.active) {
-  background-color: #a1a1aa;
+  background-color: var(--text-muted);
 }
 
 /* ==================================================== */
@@ -378,7 +366,7 @@
   .project-visual {
     order: -1; 
     border-left: none;
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: 1px solid var(--project-panel-border);
     /* CHANGED: Added equal padding on sides to clear arrows on mobile */
     padding: 2.5rem 3.5rem; 
   }

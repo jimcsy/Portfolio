@@ -38,7 +38,7 @@
 .section-number,
 .section-kicker {
   margin: 0 !important; 
-  color: #007bff; 
+  color: var(--brand-blue);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -95,6 +95,10 @@
   transform: scale(0.85); 
   transition: all 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
   pointer-events: none; 
+}
+
+html[data-theme='dark'] .skill-icon-wrapper::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M2,25 V2 H25 M75,2 H98 V25 M98,75 V98 H75 M25,98 H2 V75' fill='none' stroke='%23f5f7fa' stroke-width='5'/%3E%3C/svg%3E");
 }
 
 .skill-icon {

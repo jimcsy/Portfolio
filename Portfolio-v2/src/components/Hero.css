@@ -1,9 +1,9 @@
 /* Hero.css */
 
 :root {
-  --primary-blue: #007bff;
-  --text-gray: #71717a;
-  --bg-light-blue: #baddfc;
+  --primary-blue: var(--brand-blue);
+  --text-gray: var(--text-muted);
+  --bg-light-blue: var(--brand-blue-soft);
 }
 
 .hero-container {
@@ -17,7 +17,6 @@
   gap: clamp(2rem, 6vw, 4rem);
 }
 
-/* --- Left Column: Content --- */
 .hero-content {
   min-width: 0;
   flex: 2;
@@ -27,11 +26,9 @@
   opacity: 1;
   transform: translateX(0) scale(1) rotate(0deg);
   transform-origin: right center; 
-  /* Home Reset Animation */
   animation: homeResetFade 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Status Bar */
 .hero-status {
   display: flex;
   align-items: center;
@@ -52,10 +49,9 @@
 }
 
 .dot {
-  color: #000;
+  color: var(--text);
 }
 
-/* Typography */
 .hero-text {
   display: flex;
   flex-direction: column;
@@ -70,7 +66,7 @@
 }
 
 .text-blue {
-  background: linear-gradient(135deg, #38bdf8 0%, #007bff 50%, #0369a1 100%);
+  background: linear-gradient(135deg, #38bdf8 0%, var(--brand-blue) 50%, #0369a1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -83,17 +79,16 @@
   line-height: 0.9;
   letter-spacing: 1px;
   margin: 0;
-  color: #000000;
+  color: var(--text);
 }
 
 .subtitle {
   font-size: clamp(1rem, 2vw, 1.2rem);
-  color: #000000;
+  color: var(--text);
   margin-top: 1rem;
   font-weight: 500;
 }
 
-/* Call to Action Button */
 .resume-btn {
   display: flex;
   align-items: center;
@@ -112,10 +107,9 @@
 }
 
 .resume-btn:hover {
-  background-color: #0062cc;
+  background-color: var(--brand-blue-strong);
 }
 
-/* Social Links */
 .social-links {
   display: flex;
   gap: 1.5rem;
@@ -133,8 +127,6 @@
   color: var(--primary-blue);
 }
 
-
-/* --- Right Column: Image & 3D Card --- */
 .hero-image-wrapper {
   flex: 1;
   display: flex;
@@ -146,11 +138,9 @@
   -webkit-user-drag: none;
   touch-action: manipulation;
   transform-style: preserve-3d;
-  /* Home Reset Animation */
   animation: homeResetFade 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Clean reset animation when returning to Home */
 @keyframes homeResetFade {
   0% {
     opacity: 0;
@@ -162,72 +152,50 @@
   }
 }
 
-/* --- UPDATED MAIN CARD --- */
 .tupperware-card {
   position: relative;
-  z-index: 2; /* Forces the card to sit above the shadow layer */
+  z-index: 2;
   width: 100%;
   max-width: 440px; 
   aspect-ratio: 4 / 5.5; 
-  
   background: linear-gradient(135deg, #004d96 0%, #877b1a 35%, #003e7e 65%, #7a6e15 100%);
-  
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2); 
-  border-top: 1px solid rgba(255, 255, 255, 0.45); 
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.45);
   border-left: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 3rem;
-  
-  /* CHANGED: Removed the outer shadow, kept only the glossy inset shine */
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15);
-              
+  box-shadow: inset 0 0 20px var(--glass-surface-soft);
   overflow: hidden; 
   display: flex;
   align-items: flex-end; 
   justify-content: center;
-  
-  transition: transform 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67), 
-              max-width 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5),
-              aspect-ratio 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
+  transition: transform 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67), max-width 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5), aspect-ratio 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
   transform-style: preserve-3d;
   will-change: transform;
 }
 
-/* --- NEW: Glitch-Proof Dedicated Shadow Layer --- */
 .card-shadow {
   position: absolute;
-  z-index: 1; /* Forces it to sit behind the tupperware card */
+  z-index: 1;
   width: 100%;
   max-width: 440px; 
   aspect-ratio: 4 / 5.5; 
   border-radius: 3rem;
   background: transparent;
-  
-  /* The persistent base blue shadow */
-  box-shadow: 0 20px 40px rgba(0, 98, 204, 0.25);
-  
-  /* Matches the card's exact animation timings */
-  transition: transform 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67), 
-              box-shadow 0.3s ease,
-              max-width 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5),
-              aspect-ratio 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
+  box-shadow: 0 20px 40px var(--shadow-blue);
+  transition: transform 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67), box-shadow 0.3s ease, max-width 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5), aspect-ratio 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5); 
   will-change: transform;
 }
 
-/* The dynamic shadow triggers when hovering the wrapper, applying to our shadow layer! */
 .hero-image-wrapper:hover .card-shadow {
-  box-shadow: calc(var(--move-x, 0) * -60px) 
-              calc(var(--move-y, 0) * -60px + 30px) 
-              60px rgba(0, 98, 204, 0.5); 
+  box-shadow: calc(var(--move-x, 0) * -60px) calc(var(--move-y, 0) * -60px + 30px) 60px var(--shadow-blue);
 }
 
 .tupperware-card:hover {
-  /* Only brightens the internal shine on hover */
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2); 
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
-/* Glossy reflection */
 .tupperware-card::before {
   content: "";
   position: absolute;
@@ -235,20 +203,17 @@
   left: -150%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, var(--glass-surface) 50%, rgba(255,255,255,0) 100%);
   transform: skewX(-25deg);
   transition: all 0.7s ease;
   z-index: 20; 
   pointer-events: none;
-  
-  /* ADDED: Forces the gloss to respect the rounded corners! */
   border-radius: inherit; 
 }
 .tupperware-card:hover::before {
   left: 150%; 
 }
 
-/* NEW: Cinematic noise overlay that sits on the very top layer of the Tupperware */
 .tupperware-card::after {
   content: "";
   position: absolute;
@@ -261,12 +226,9 @@
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   opacity: 0.35; 
   mix-blend-mode: overlay;
-  
-  /* ADDED: Snips off those gray square edges so it fits the curve perfectly! */
   border-radius: inherit; 
 }
 
-/* Enlarged Profile Image */
 .profile-pic {
   position: relative;
   width: 100%; 
@@ -280,7 +242,6 @@
   transition: opacity 0.4s ease, transform 0.6s ease; 
 }
 
-/* --- Falling Toys Background --- */
 .falling-toys-container {
   position: absolute;
   top: 0;
@@ -297,12 +258,12 @@
   position: absolute;
   width: 85px;  
   height: 85px;
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--glass-surface);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 2px solid rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--glass-border);
   border-radius: 1.2rem; 
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+  box-shadow: 0 10px 20px var(--glass-shadow);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -317,10 +278,9 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 4px 6px var(--glass-shadow));
 }
 
-/* Toy Cluster Layout */
 .toy-1 { bottom: 4%; left: 3%; --final-rot: -10deg; --t-dist: 12px; --t-rot: 10deg; animation-delay: 0.2s; }
 .toy-2 { bottom: 3%; left: 26%; --final-rot: 15deg; --t-dist: 15px; --t-rot: -12deg; animation-delay: 1.2s; }
 .toy-3 { bottom: 26%; left: 4%; --final-rot: 20deg; --t-dist: 18px; --t-rot: 15deg; animation-delay: 2.5s; }
@@ -328,22 +288,15 @@
 .toy-5 { bottom: 3%; right: 26%; --final-rot: -15deg; --t-dist: 12px; --t-rot: 12deg; animation-delay: 1.8s; }
 .toy-6 { bottom: 26%; right: 4%; --final-rot: -20deg; --t-dist: 16px; --t-rot: -15deg; animation-delay: 3.2s; }
 
-
-/* ==================================================== */
-/* 🌀 HERO SECTION: FLIP & MORPH SCROLL PHYSICS 🌀      */
-/* ==================================================== */
-
 .scrolled-hero .hero-content {
   opacity: 0;
   transform: translateX(300px) scale(0.1) rotate(15deg); 
   filter: blur(10px);
   pointer-events: none; 
-  /* Transitions only apply when scrolling forward */
   transition: all 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5);
   animation: none;
 }
 
-/* Fades out the 3D shadow beautifully as the card flips and morphs */
 .scrolled-hero .card-shadow {
   max-width: 500px;
   aspect-ratio: 5 / 3.2;
@@ -355,7 +308,6 @@
   flex: 0 0 min(605px, calc(100vw - 4rem));
   width: min(605px, calc(100vw - 4rem));
   transform: translateX(-280px) rotateY(180deg) scale(1); 
-  /* Transitions only apply when scrolling forward */
   transition: transform 0.8s cubic-bezier(0.5, -0.5, 0.1, 1.5), width 0.8s, flex 0.8s;
   animation: none;
 }
@@ -365,7 +317,7 @@
   max-width: 500px;
   height: auto;
   aspect-ratio: 5 / 3.2;
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15); 
+  box-shadow: inset 0 0 20px var(--glass-surface-soft);
 }
 
 .scrolled-hero .profile-pic {
@@ -377,10 +329,6 @@
   opacity: 0;
   transform: translateZ(-20px) scale(0.2); 
 }
-
-/* ==================================================== */
-/* 💼 THE FLIPPED BUSINESS CARD LAYOUT 💼               */
-/* ==================================================== */
 
 .business-card-content {
   position: absolute;
@@ -394,10 +342,7 @@
   justify-content: flex-start;
   padding: 0 2.5rem;
   box-sizing: border-box; 
-  
-  /* CHANGED: Matches the front side's cinematic blue and golden-olive gradient */
   background: linear-gradient(135deg, #004d96 0%, #877b1a 35%, #003e7e 65%, #7a6e15 100%);
-  
   border-radius: 2.5rem; 
   transform: rotateY(180deg) translateZ(30px); 
   opacity: 0;
@@ -406,7 +351,6 @@
   overflow: hidden; 
 }
 
-/* NEW: Cinematic noise overlay for the flipped backside */
 .business-card-content::after {
   content: "";
   position: absolute;
@@ -414,21 +358,11 @@
   left: 0; 
   width: 100%; 
   height: 100%;
-  
-  /* Forces the noise to sit above your text, image, and white stripe */
   z-index: 99; 
-  
-  /* CRITICAL: Allows the user's mouse to click right through the noise to the social links */
   pointer-events: none; 
-  
-  /* Generates mathematical static noise */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  
-  /* Blends it smoothly into the colors below */
   opacity: 0.35; 
   mix-blend-mode: overlay;
-  
-  /* Inherits the 2.5rem curve from the container so you don't get gray corners */
   border-radius: inherit;
 }
 
@@ -438,7 +372,6 @@
   transition: opacity 0.5s ease 0.4s; 
 }
 
-/* --- Top Left Logo --- */
 .biz-logo-top {
   position: absolute;
   top: 1.5rem; 
@@ -452,7 +385,6 @@
   filter: brightness(0) invert(1); 
 }
 
-/* --- Main Layout --- */
 .biz-card-layout {
   display: flex;
   align-items: center;
@@ -464,7 +396,6 @@
   z-index: 2; 
 }
 
-/* 1x1 Image Placeholder Container */
 .biz-avatar {
   width: 130px; 
   height: 130px;
@@ -481,7 +412,6 @@
   display: block;
 }
 
-/* Text Details */
 .biz-details {
   display: flex;
   flex-direction: column;
@@ -508,7 +438,6 @@
   font-weight: 400;
 }
 
-/* --- Social Icons Row --- */
 .biz-socials {
   display: flex;
   align-items: center;
@@ -531,7 +460,6 @@
   opacity: 0.85;
 }
 
-/* --- Bottom White Stripe --- */
 .biz-stripe {
   position: absolute;
   bottom: 1.5rem; 
@@ -542,19 +470,11 @@
   z-index: 1;
 }
 
-/* ==================================================== */
-/* 🚀 THE FINAL EXIT ANIMATION 🚀                       */
-/* ==================================================== */
-
 .exit-hero .hero-image-wrapper {
-  /* Shoots off the RIGHT edge of the screen */
   transform: translateX(150vw) rotateY(180deg) scale(1) !important;
-  
-  /* CHANGED: Sped up from 0.6s to 0.45s for a punchier, faster exit! */
   transition: transform 0.45s cubic-bezier(0.5, -0.1, 0.1, 1) !important; 
 }
 
-/* --- Animations --- */
 @keyframes clawMachineDrop {
   0% { transform: translateY(-800px) rotate(-80deg); animation-timing-function: ease-in; }
   40% { transform: translateY(0px) rotate(var(--final-rot)); animation-timing-function: ease-out; }
@@ -563,10 +483,6 @@
   85% { transform: translateY(-20px) rotate(calc(var(--final-rot) - 5deg)); animation-timing-function: ease-in; }
   95%, 100% { transform: translateY(0px) rotate(var(--final-rot)); }
 }
-
-/* ==================================================== */
-/* 📱 CONSOLIDATED RESPONSIVE FIXES 📱                  */
-/* ==================================================== */
 
 @media (max-width: 900px) {
   .scrolled-hero .hero-content {

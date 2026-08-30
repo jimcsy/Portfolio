@@ -1,13 +1,103 @@
 :root {
+  --page-bg: #f3f3f3;
+  --page-bg-alt: #eaeef5;
+  --surface-bg: #ffffff;
+  --surface-alt: #f7f9fc;
+  --card-bg: #ffffff;
+  --card-muted: #f5f7fb;
+  --panel-bg: #ffffff;
+  --panel-border: rgba(17, 17, 17, 0.08);
+  --line: rgba(17, 17, 17, 0.82);
+  --text: #101010;
+  --text-soft: #3a3a3a;
+  --text-muted: #585858;
+  --brand-blue: #007bff;
+  --brand-blue-strong: #005fdd;
+  --brand-blue-soft: #dfeeff;
+  --shadow-soft: rgba(0, 0, 0, 0.08);
+  --shadow-blue: rgba(0, 123, 255, 0.18);
+  --page-bg-transparent: rgba(255, 255, 255, 0);
+  --glass-surface: rgba(255, 255, 255, 0.45);
+  --glass-surface-soft: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.9);
+  --glass-shadow: rgba(0, 0, 0, 0.15);
+  --soft-shadow: rgba(0, 0, 0, 0.08);
+  --contact-bg: #f4f7fb;
+  --contact-dot-soft: rgba(17, 17, 17, 0.04);
+  --contact-dot-strong: rgba(17, 17, 17, 0.2);
+  --project-glow-1: rgba(0, 123, 255, 0.4);
+  --project-glow-2: rgba(135, 123, 26, 0.3);
+  --project-glow-3: rgba(0, 210, 255, 0.3);
+  --project-bg-soft: #f4f4f5;
+  --project-card-surface: #fafafa;
+  --project-panel-border: #eaeaea;
+  --project-chip-bg: #eef5ff;
+  --project-chip-text: #0056b3;
+  --terminal-bg: #0a1122;
+  --terminal-panel: rgba(255, 255, 255, 0.02);
+  --terminal-border: rgba(255, 255, 255, 0.08);
+  --terminal-muted: #64748b;
+  --terminal-field: rgba(255, 255, 255, 0.1);
+  --terminal-field-text: #e2e8f0;
+  --terminal-placeholder: #475569;
+  --terminal-footer: rgba(6, 15, 30, 0.8);
+  --muted-border: rgba(255, 255, 255, 0.05);
+
   font-family: 'Inter', 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #111111;
-  background: #f3f3f3;
+  color: var(--text);
+  background: var(--page-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html[data-theme='dark'] {
+  --page-bg: #0a0a0a;
+  --page-bg-alt: #121212;
+  --surface-bg: #141414;
+  --surface-alt: #1b1d1f;
+  --card-bg: #121619;
+  --card-muted: #171b1f;
+  --panel-bg: #15181d;
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --line: rgba(255, 255, 255, 0.82);
+  --text: #f5f7fa;
+  --text-soft: #dfe4ea;
+  --text-muted: #a7b0bb;
+  --brand-blue: #3ca3ff;
+  --brand-blue-strong: #66b6ff;
+  --brand-blue-soft: #142c45;
+  --shadow-soft: rgba(255, 255, 255, 0.06);
+  --shadow-blue: rgba(95, 169, 255, 0.3);
+  --page-bg-transparent: rgba(10, 10, 10, 0);
+  --glass-surface: rgba(255, 255, 255, 0.08);
+  --glass-surface-soft: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-shadow: rgba(0, 0, 0, 0.28);
+  --soft-shadow: rgba(0, 0, 0, 0.28);
+  --contact-bg: #0d1725;
+  --contact-dot-soft: rgba(255, 255, 255, 0.04);
+  --contact-dot-strong: rgba(255, 255, 255, 0.4);
+  --project-glow-1: rgba(81, 162, 255, 0.28);
+  --project-glow-2: rgba(183, 164, 52, 0.22);
+  --project-glow-3: rgba(46, 196, 255, 0.22);
+  --project-bg-soft: #1a1d22;
+  --project-card-surface: #121619;
+  --project-panel-border: rgba(255, 255, 255, 0.08);
+  --project-chip-bg: rgba(60, 163, 255, 0.12);
+  --project-chip-text: #cfeaff;
+  --terminal-bg: #0d141d;
+  --terminal-panel: rgba(255, 255, 255, 0.02);
+  --terminal-border: rgba(255, 255, 255, 0.08);
+  --terminal-muted: #8ca1b6;
+  --terminal-field: rgba(255, 255, 255, 0.03);
+  --terminal-field-text: #eaf2ff;
+  --terminal-placeholder: #7b8da6;
+  --terminal-footer: rgba(10, 15, 20, 0.8);
+  --muted-border: rgba(255, 255, 255, 0.05);
 }
 
 html, body, #root {
@@ -18,6 +108,8 @@ html, body, #root {
 
 body {
   min-height: 100vh;
+  background: var(--page-bg);
+  color: var(--text);
 }
 
 h1, h2, p {
