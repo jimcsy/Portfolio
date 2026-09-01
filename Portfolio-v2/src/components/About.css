@@ -11,7 +11,7 @@
 
 /* --- Left Column Typography --- */
 .about-left {
-  display: flex;
+  display: flex; 
   flex-direction: column;
   gap: 2rem;
 }
