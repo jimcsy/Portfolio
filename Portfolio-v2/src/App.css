@@ -10,16 +10,15 @@
 }
 
 html[data-theme='dark'] {
-  --page-bg: #0a0a0a;
-  --page-bg-transparent: rgba(10, 10, 10, 0);
-  --panel-bg: #15181d;
+  --page-bg: #0a192f; /* Deep dark blue */
+  --page-bg-transparent: rgba(10, 25, 47, 0); /* Matches bg for the top fade overlay */
+  --panel-bg: #112240; /* Slightly lighter navy for contrast on panels */
   --line: rgba(255, 255, 255, 0.82);
   --text: #f5f7fa;
   --muted: #a7b0bb;
   --blue: #3ca3ff;
   --blue-soft: #142c45;
 }
-
 * {
   box-sizing: border-box;
 }
@@ -88,9 +87,9 @@ img {
 }
 
 .dark {
-  --page-bg: #111827;
-  --page-bg-transparent: rgba(17, 24, 39, 0); /* NEW: For smooth dark mode fading */
-  --panel-bg: #0f172a;
+  --page-bg: #0a192f;
+  --page-bg-transparent: rgba(10, 25, 47, 0); 
+  --panel-bg: #112240;
   --line: rgba(255, 255, 255, 0.85);
   --text: #f8fafc;
   --muted: #cbd5e1;
