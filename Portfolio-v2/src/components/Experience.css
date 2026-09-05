@@ -152,7 +152,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* The inner colored core that fills up */
@@ -264,7 +264,7 @@
 .meta-item svg {
   width: 16px;
   height: 16px;
-  color: var(--text-muted);
+  color: inherit; /* Inherits from .experience-meta for easy theme switching */
 }
 
 /* Bullet Points */
@@ -317,6 +317,38 @@
 .tag svg {
   width: 14px;
   height: 14px;
+}
+
+/* ==================================================== */
+/* 🌙 DARK MODE: EXPERIENCE CARDS & DOTS                */
+/* ==================================================== */
+
+[data-theme="dark"] .experience-content {
+  /* Shifts the card to a lighter navy blue to complement the #0a192f background */
+  background-color: #112240; 
+  /* Adds a microscopic white border to give the card a crisp, premium edge */
+  border: 1px solid rgba(255, 255, 255, 0.05); 
+  /* Deepens the shadow to lift the card cleanly off the page */
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5); 
+}
+
+/* Softens the bullet point text and meta data so it isn't blinding against the navy */
+[data-theme="dark"] .experience-bullets li,
+[data-theme="dark"] .experience-meta {
+  color: #a7b0bb; 
+}
+
+/* CRITICAL: The timeline dots must match the PAGE background (#0a192f) 
+   so the gap around them looks perfectly cut out */
+[data-theme="dark"] .timeline-dot {
+  background-color: #0a192f;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 6px #0a192f;
+}
+
+/* The empty track gets a subtle dark mode treatment */
+[data-theme="dark"] .timeline-track-empty {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* ==================================================== */
